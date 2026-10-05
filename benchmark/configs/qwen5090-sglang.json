@@ -1,0 +1,21 @@
+{
+  "label": "qwen5090-sglang",
+  "engine": "sglang",
+  "python": ".venv-sglang/bin/python",
+  "model": "/home/bdepyzy/data/models/vllm/Qwen3.6-35B-A3B-NVFP4",
+  "env": {},
+  "args": [
+    "--quantization", "modelopt_mixed",
+    "--context-length", "32768",
+    "--max-running-requests", "1",
+    "--mem-fraction-static", "0.90",
+    "--cuda-graph-max-bs-decode", "1",
+    "--reasoning-parser", "qwen3",
+    "--moe-runner-backend", "marlin",
+    "--fp4-gemm-backend", "marlin",
+    "--chunked-prefill-size", "4096",
+    "--model-loader-extra-config", "{\"enable_multithread_load\":false,\"num_threads\":1}",
+    "--random-seed", "0",
+    "--json-model-override-args", "{\"language_model_only\":true}"
+  ]
+}

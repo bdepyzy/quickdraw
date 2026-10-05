@@ -1,0 +1,25 @@
+{
+  "label": "qwen5090-vllm-mtp4",
+  "engine": "vllm",
+  "python": ".venv-vllm/bin/python",
+  "model": "/home/bdepyzy/data/models/vllm/Qwen3.6-35B-A3B-NVFP4",
+  "env": {"VLLM_HAS_FLASHINFER_CUBIN":"1"},
+  "args": [
+    "--quantization", "modelopt_fp4",
+    "--safetensors-load-strategy", "lazy",
+    "--language-model-only",
+    "--mm-processor-cache-gb", "0",
+    "--max-model-len", "32768",
+    "--max-num-seqs", "1",
+    "--max-num-batched-tokens", "4096",
+    "--gpu-memory-utilization", "0.90",
+    "--attention-backend", "FLASHINFER",
+    "--attention-config", "{\"use_trtllm_attention\":true}",
+    "--kv-cache-dtype", "fp8",
+    "--block-size", "128",
+    "--reasoning-parser", "qwen3",
+    "--seed", "0",
+    "--speculative-config", "{\"method\":\"mtp\",\"num_speculative_tokens\":4,\"moe_backend\":\"flashinfer_cutlass\"}",
+    "--kernel-config", "{\"enable_jit_warmup\":false,\"enable_cutedsl_warmup\":false}"
+  ]
+}

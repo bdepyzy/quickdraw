@@ -1,0 +1,888 @@
+{
+  "trace": "analysis/traces/sglang-chunk4096-recheck-128/sglang-chunk4096-recheck-128-1789231869.1442683-TP-0.trace.json.gz",
+  "steps": [
+    {
+      "span_us": 2992.5439453125,
+      "union_us": 2963.8662109375,
+      "gap_us": 28.677734375,
+      "n_kernels": 1055,
+      "api_dur_us": 2347.678,
+      "api_ts": 6264081401914.147,
+      "streams": {
+        "13": 2346.6,
+        "4229": 1278.3
+      },
+      "categories": {
+        "fp8_gemm": 922.9,
+        "marlin_moe": 714.2,
+        "marlin_shared_lmhead": 692.8,
+        "norm_act_elem": 438.0,
+        "memcpy_memset": 191.1,
+        "recurrent_conv": 185.4,
+        "gemv_bf16": 181.1,
+        "routing": 130.3,
+        "quant": 112.5,
+        "attention": 103.0,
+        "reduction_moe": 39.2
+      }
+    },
+    {
+      "span_us": 2990.3369140625,
+      "union_us": 2961.7314453125,
+      "gap_us": 28.60546875,
+      "n_kernels": 1055,
+      "api_dur_us": 3868.038,
+      "api_ts": 6264081416764.305,
+      "streams": {
+        "13": 2344.7,
+        "4229": 1275.1
+      },
+      "categories": {
+        "fp8_gemm": 922.1,
+        "marlin_moe": 714.1,
+        "marlin_shared_lmhead": 692.7,
+        "norm_act_elem": 434.4,
+        "memcpy_memset": 191.5,
+        "recurrent_conv": 186.0,
+        "gemv_bf16": 177.8,
+        "routing": 130.5,
+        "quant": 111.2,
+        "attention": 103.9,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 14850.1572265625
+    },
+    {
+      "span_us": 2989.8564453125,
+      "union_us": 2961.2880859375,
+      "gap_us": 28.568359375,
+      "n_kernels": 1055,
+      "api_dur_us": 2516.214,
+      "api_ts": 6264081437711.575,
+      "streams": {
+        "13": 2343.8,
+        "4229": 1280.8
+      },
+      "categories": {
+        "fp8_gemm": 920.8,
+        "marlin_moe": 715.0,
+        "marlin_shared_lmhead": 692.1,
+        "norm_act_elem": 433.7,
+        "memcpy_memset": 193.3,
+        "recurrent_conv": 184.9,
+        "gemv_bf16": 181.7,
+        "routing": 131.2,
+        "quant": 111.9,
+        "attention": 104.6,
+        "reduction_moe": 39.6
+      },
+      "launch_interval_us": 20947.2705078125
+    },
+    {
+      "span_us": 2995.3916015625,
+      "union_us": 2967.4931640625,
+      "gap_us": 27.8984375,
+      "n_kernels": 1055,
+      "api_dur_us": 2557.777,
+      "api_ts": 6264081452825.862,
+      "streams": {
+        "13": 2348.6,
+        "4229": 1281.0
+      },
+      "categories": {
+        "fp8_gemm": 921.8,
+        "marlin_moe": 713.7,
+        "marlin_shared_lmhead": 695.5,
+        "norm_act_elem": 434.7,
+        "memcpy_memset": 192.7,
+        "recurrent_conv": 185.3,
+        "gemv_bf16": 181.8,
+        "routing": 132.8,
+        "quant": 112.3,
+        "attention": 104.3,
+        "reduction_moe": 39.4
+      },
+      "launch_interval_us": 15114.287109375
+    },
+    {
+      "span_us": 2992.1279296875,
+      "union_us": 2963.6298828125,
+      "gap_us": 28.498046875,
+      "n_kernels": 1055,
+      "api_dur_us": 2439.176,
+      "api_ts": 6264081467847.037,
+      "streams": {
+        "13": 2345.8,
+        "4229": 1279.9
+      },
+      "categories": {
+        "fp8_gemm": 920.6,
+        "marlin_moe": 714.0,
+        "marlin_shared_lmhead": 694.1,
+        "norm_act_elem": 435.7,
+        "memcpy_memset": 192.2,
+        "recurrent_conv": 185.9,
+        "gemv_bf16": 180.9,
+        "routing": 130.8,
+        "quant": 111.8,
+        "attention": 104.6,
+        "reduction_moe": 39.4
+      },
+      "launch_interval_us": 15021.1748046875
+    },
+    {
+      "span_us": 2986.6552734375,
+      "union_us": 2958.6083984375,
+      "gap_us": 28.046875,
+      "n_kernels": 1055,
+      "api_dur_us": 2533.072,
+      "api_ts": 6264081482859.637,
+      "streams": {
+        "13": 2348.4,
+        "4229": 1271.1
+      },
+      "categories": {
+        "fp8_gemm": 923.6,
+        "marlin_moe": 714.0,
+        "marlin_shared_lmhead": 696.4,
+        "norm_act_elem": 432.0,
+        "memcpy_memset": 190.8,
+        "recurrent_conv": 185.2,
+        "gemv_bf16": 178.5,
+        "routing": 128.7,
+        "quant": 112.1,
+        "attention": 103.1,
+        "reduction_moe": 39.1
+      },
+      "launch_interval_us": 15012.599609375
+    },
+    {
+      "span_us": 3482.1484375,
+      "union_us": 2972.044921875,
+      "gap_us": 510.103515625,
+      "n_kernels": 1055,
+      "api_dur_us": 2623.692,
+      "api_ts": 6264081499676.106,
+      "streams": {
+        "13": 2342.9,
+        "4229": 1272.9
+      },
+      "categories": {
+        "fp8_gemm": 921.7,
+        "marlin_moe": 712.9,
+        "marlin_shared_lmhead": 688.9,
+        "norm_act_elem": 434.4,
+        "memcpy_memset": 188.7,
+        "recurrent_conv": 185.3,
+        "gemv_bf16": 179.8,
+        "routing": 131.5,
+        "quant": 111.1,
+        "attention": 104.9,
+        "reduction_moe": 39.1
+      },
+      "launch_interval_us": 16816.4697265625
+    },
+    {
+      "span_us": 2990.5595703125,
+      "union_us": 2961.8984375,
+      "gap_us": 28.6611328125,
+      "n_kernels": 1055,
+      "api_dur_us": 2691.6,
+      "api_ts": 6264081514311.676,
+      "streams": {
+        "13": 2347.1,
+        "4229": 1282.1
+      },
+      "categories": {
+        "fp8_gemm": 922.4,
+        "marlin_moe": 713.3,
+        "marlin_shared_lmhead": 696.2,
+        "norm_act_elem": 434.5,
+        "memcpy_memset": 192.8,
+        "recurrent_conv": 185.0,
+        "gemv_bf16": 184.1,
+        "routing": 132.2,
+        "quant": 111.2,
+        "attention": 102.2,
+        "reduction_moe": 39.0
+      },
+      "launch_interval_us": 14635.5693359375
+    },
+    {
+      "span_us": 2991.0400390625,
+      "union_us": 2962.3740234375,
+      "gap_us": 28.666015625,
+      "n_kernels": 1055,
+      "api_dur_us": 2394.081,
+      "api_ts": 6264081529718.183,
+      "streams": {
+        "13": 2342.8,
+        "4229": 1279.1
+      },
+      "categories": {
+        "fp8_gemm": 921.3,
+        "marlin_moe": 714.4,
+        "marlin_shared_lmhead": 691.2,
+        "norm_act_elem": 436.1,
+        "memcpy_memset": 191.3,
+        "recurrent_conv": 185.6,
+        "gemv_bf16": 180.5,
+        "routing": 130.7,
+        "quant": 112.3,
+        "attention": 102.7,
+        "reduction_moe": 39.1
+      },
+      "launch_interval_us": 15406.5068359375
+    },
+    {
+      "span_us": 2992.8955078125,
+      "union_us": 2964.966796875,
+      "gap_us": 27.9287109375,
+      "n_kernels": 1055,
+      "api_dur_us": 2228.452,
+      "api_ts": 6264081543257.267,
+      "streams": {
+        "13": 2349.6,
+        "4229": 1278.1
+      },
+      "categories": {
+        "fp8_gemm": 922.3,
+        "marlin_moe": 712.5,
+        "marlin_shared_lmhead": 696.0,
+        "norm_act_elem": 436.9,
+        "memcpy_memset": 191.4,
+        "recurrent_conv": 185.5,
+        "gemv_bf16": 180.8,
+        "routing": 130.8,
+        "quant": 112.0,
+        "attention": 103.3,
+        "reduction_moe": 39.6
+      },
+      "launch_interval_us": 13539.083984375
+    },
+    {
+      "span_us": 2993.4716796875,
+      "union_us": 2965.05078125,
+      "gap_us": 28.4208984375,
+      "n_kernels": 1055,
+      "api_dur_us": 3989.603,
+      "api_ts": 6264081556889.349,
+      "streams": {
+        "13": 2344.4,
+        "4229": 1283.1
+      },
+      "categories": {
+        "fp8_gemm": 922.9,
+        "marlin_moe": 716.6,
+        "marlin_shared_lmhead": 692.1,
+        "norm_act_elem": 432.6,
+        "memcpy_memset": 192.5,
+        "recurrent_conv": 185.4,
+        "gemv_bf16": 183.4,
+        "routing": 132.4,
+        "quant": 112.3,
+        "attention": 102.4,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 13632.08203125
+    },
+    {
+      "span_us": 2989.599609375,
+      "union_us": 2961.263671875,
+      "gap_us": 28.3359375,
+      "n_kernels": 1055,
+      "api_dur_us": 2582.338,
+      "api_ts": 6264081572394.821,
+      "streams": {
+        "13": 2348.1,
+        "4229": 1274.8
+      },
+      "categories": {
+        "fp8_gemm": 921.6,
+        "marlin_moe": 714.1,
+        "marlin_shared_lmhead": 694.9,
+        "norm_act_elem": 434.7,
+        "memcpy_memset": 190.2,
+        "recurrent_conv": 185.0,
+        "gemv_bf16": 179.9,
+        "routing": 129.3,
+        "quant": 111.9,
+        "attention": 104.2,
+        "reduction_moe": 40.0
+      },
+      "launch_interval_us": 15505.47265625
+    },
+    {
+      "span_us": 2991.8408203125,
+      "union_us": 2963.017578125,
+      "gap_us": 28.8232421875,
+      "n_kernels": 1055,
+      "api_dur_us": 4229.395,
+      "api_ts": 6264081589825.444,
+      "streams": {
+        "13": 2348.5,
+        "4229": 1282.2
+      },
+      "categories": {
+        "fp8_gemm": 922.3,
+        "marlin_moe": 714.6,
+        "marlin_shared_lmhead": 693.9,
+        "norm_act_elem": 433.2,
+        "memcpy_memset": 190.8,
+        "gemv_bf16": 187.0,
+        "recurrent_conv": 186.0,
+        "routing": 130.4,
+        "quant": 112.6,
+        "attention": 103.9,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 17430.623046875
+    },
+    {
+      "span_us": 2991.583984375,
+      "union_us": 2963.3056640625,
+      "gap_us": 28.2783203125,
+      "n_kernels": 1055,
+      "api_dur_us": 2341.253,
+      "api_ts": 6264081608398.91,
+      "streams": {
+        "13": 2347.5,
+        "4229": 1275.3
+      },
+      "categories": {
+        "fp8_gemm": 923.7,
+        "marlin_moe": 716.7,
+        "marlin_shared_lmhead": 694.2,
+        "norm_act_elem": 432.4,
+        "memcpy_memset": 191.2,
+        "recurrent_conv": 185.3,
+        "gemv_bf16": 179.5,
+        "routing": 130.2,
+        "quant": 111.7,
+        "attention": 102.5,
+        "reduction_moe": 39.4
+      },
+      "launch_interval_us": 18573.4658203125
+    },
+    {
+      "span_us": 2990.4326171875,
+      "union_us": 2962.0146484375,
+      "gap_us": 28.41796875,
+      "n_kernels": 1055,
+      "api_dur_us": 6149.856,
+      "api_ts": 6264081621187.195,
+      "streams": {
+        "13": 2348.4,
+        "4229": 1278.2
+      },
+      "categories": {
+        "fp8_gemm": 921.4,
+        "marlin_moe": 714.9,
+        "marlin_shared_lmhead": 696.4,
+        "norm_act_elem": 432.8,
+        "memcpy_memset": 192.9,
+        "recurrent_conv": 184.9,
+        "gemv_bf16": 181.5,
+        "routing": 131.2,
+        "quant": 112.3,
+        "attention": 103.0,
+        "reduction_moe": 39.5
+      },
+      "launch_interval_us": 12788.28515625
+    },
+    {
+      "span_us": 2987.48828125,
+      "union_us": 2959.3857421875,
+      "gap_us": 28.1025390625,
+      "n_kernels": 1055,
+      "api_dur_us": 4107.572,
+      "api_ts": 6264081644349.5,
+      "streams": {
+        "13": 2344.8,
+        "4229": 1274.9
+      },
+      "categories": {
+        "fp8_gemm": 923.0,
+        "marlin_moe": 712.6,
+        "marlin_shared_lmhead": 692.0,
+        "norm_act_elem": 435.2,
+        "memcpy_memset": 192.2,
+        "recurrent_conv": 185.2,
+        "gemv_bf16": 178.8,
+        "routing": 130.3,
+        "quant": 111.8,
+        "attention": 102.7,
+        "reduction_moe": 39.5
+      },
+      "launch_interval_us": 23162.3046875
+    },
+    {
+      "span_us": 2989.3125,
+      "union_us": 2961.4091796875,
+      "gap_us": 27.9033203125,
+      "n_kernels": 1055,
+      "api_dur_us": 3990.963,
+      "api_ts": 6264081670331.485,
+      "streams": {
+        "13": 2352.3,
+        "4229": 1271.0
+      },
+      "categories": {
+        "fp8_gemm": 921.3,
+        "marlin_moe": 709.9,
+        "marlin_shared_lmhead": 699.0,
+        "norm_act_elem": 434.1,
+        "memcpy_memset": 190.7,
+        "recurrent_conv": 185.3,
+        "gemv_bf16": 179.6,
+        "routing": 131.2,
+        "quant": 113.3,
+        "attention": 104.3,
+        "reduction_moe": 39.0
+      },
+      "launch_interval_us": 25981.9853515625
+    },
+    {
+      "span_us": 2989.0556640625,
+      "union_us": 2960.6728515625,
+      "gap_us": 28.3828125,
+      "n_kernels": 1055,
+      "api_dur_us": 4282.341,
+      "api_ts": 6264081697153.375,
+      "streams": {
+        "13": 2347.2,
+        "4229": 1278.3
+      },
+      "categories": {
+        "fp8_gemm": 922.5,
+        "marlin_moe": 714.4,
+        "marlin_shared_lmhead": 694.1,
+        "norm_act_elem": 435.1,
+        "memcpy_memset": 192.0,
+        "recurrent_conv": 184.3,
+        "gemv_bf16": 182.9,
+        "routing": 129.6,
+        "quant": 111.8,
+        "attention": 103.7,
+        "reduction_moe": 39.6
+      },
+      "launch_interval_us": 26821.8896484375
+    },
+    {
+      "span_us": 2992.0322265625,
+      "union_us": 2963.7099609375,
+      "gap_us": 28.322265625,
+      "n_kernels": 1055,
+      "api_dur_us": 3941.294,
+      "api_ts": 6264081726243.633,
+      "streams": {
+        "13": 2346.6,
+        "4229": 1277.3
+      },
+      "categories": {
+        "fp8_gemm": 922.6,
+        "marlin_moe": 717.7,
+        "marlin_shared_lmhead": 694.9,
+        "norm_act_elem": 433.4,
+        "memcpy_memset": 191.5,
+        "recurrent_conv": 184.7,
+        "gemv_bf16": 178.4,
+        "routing": 130.2,
+        "quant": 112.3,
+        "attention": 103.3,
+        "reduction_moe": 39.1
+      },
+      "launch_interval_us": 29090.2578125
+    },
+    {
+      "span_us": 2998.3359375,
+      "union_us": 2969.9638671875,
+      "gap_us": 28.3720703125,
+      "n_kernels": 1055,
+      "api_dur_us": 4214.658,
+      "api_ts": 6264081751383.67,
+      "streams": {
+        "13": 2350.9,
+        "4229": 1283.6
+      },
+      "categories": {
+        "fp8_gemm": 924.3,
+        "marlin_moe": 716.0,
+        "marlin_shared_lmhead": 694.0,
+        "norm_act_elem": 436.1,
+        "memcpy_memset": 192.1,
+        "recurrent_conv": 187.0,
+        "gemv_bf16": 183.9,
+        "routing": 131.4,
+        "quant": 111.7,
+        "attention": 103.3,
+        "reduction_moe": 39.2
+      },
+      "launch_interval_us": 25140.037109375
+    },
+    {
+      "span_us": 2992.6083984375,
+      "union_us": 2964.4560546875,
+      "gap_us": 28.15234375,
+      "n_kernels": 1055,
+      "api_dur_us": 4056.136,
+      "api_ts": 6264081772288.036,
+      "streams": {
+        "13": 2348.1,
+        "4229": 1277.8
+      },
+      "categories": {
+        "fp8_gemm": 922.4,
+        "marlin_moe": 715.3,
+        "marlin_shared_lmhead": 694.4,
+        "norm_act_elem": 432.8,
+        "memcpy_memset": 192.8,
+        "recurrent_conv": 185.7,
+        "gemv_bf16": 179.7,
+        "routing": 131.6,
+        "quant": 111.9,
+        "attention": 103.8,
+        "reduction_moe": 39.0
+      },
+      "launch_interval_us": 20904.3662109375
+    },
+    {
+      "span_us": 2992.671875,
+      "union_us": 2964.5146484375,
+      "gap_us": 28.1572265625,
+      "n_kernels": 1055,
+      "api_dur_us": 3802.581,
+      "api_ts": 6264081792816.473,
+      "streams": {
+        "13": 2348.2,
+        "4229": 1273.9
+      },
+      "categories": {
+        "fp8_gemm": 921.9,
+        "marlin_moe": 715.8,
+        "marlin_shared_lmhead": 693.6,
+        "norm_act_elem": 433.5,
+        "memcpy_memset": 192.0,
+        "recurrent_conv": 185.2,
+        "gemv_bf16": 177.6,
+        "routing": 131.5,
+        "quant": 112.1,
+        "attention": 105.0,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 20528.4365234375
+    },
+    {
+      "span_us": 2992.6416015625,
+      "union_us": 2964.7861328125,
+      "gap_us": 27.85546875,
+      "n_kernels": 1055,
+      "api_dur_us": 3927.395,
+      "api_ts": 6264081816854.051,
+      "streams": {
+        "13": 2347.4,
+        "4229": 1278.7
+      },
+      "categories": {
+        "fp8_gemm": 922.4,
+        "marlin_moe": 715.8,
+        "marlin_shared_lmhead": 694.9,
+        "norm_act_elem": 435.8,
+        "memcpy_memset": 192.1,
+        "recurrent_conv": 183.8,
+        "gemv_bf16": 179.1,
+        "routing": 131.0,
+        "quant": 111.4,
+        "attention": 104.5,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 24037.578125
+    },
+    {
+      "span_us": 2984.896484375,
+      "union_us": 2956.8740234375,
+      "gap_us": 28.0224609375,
+      "n_kernels": 1055,
+      "api_dur_us": 4026.058,
+      "api_ts": 6264081844043.856,
+      "streams": {
+        "13": 2343.9,
+        "4229": 1273.4
+      },
+      "categories": {
+        "fp8_gemm": 921.7,
+        "marlin_moe": 714.7,
+        "marlin_shared_lmhead": 693.5,
+        "norm_act_elem": 431.5,
+        "memcpy_memset": 190.4,
+        "recurrent_conv": 185.4,
+        "gemv_bf16": 179.7,
+        "routing": 129.4,
+        "quant": 111.8,
+        "attention": 103.4,
+        "reduction_moe": 39.1
+      },
+      "launch_interval_us": 27189.8056640625
+    },
+    {
+      "span_us": 2994.46484375,
+      "union_us": 2966.11328125,
+      "gap_us": 28.3515625,
+      "n_kernels": 1055,
+      "api_dur_us": 4154.88,
+      "api_ts": 6264081869023.306,
+      "streams": {
+        "13": 2345.8,
+        "4229": 1280.2
+      },
+      "categories": {
+        "fp8_gemm": 922.0,
+        "marlin_moe": 717.2,
+        "marlin_shared_lmhead": 689.4,
+        "norm_act_elem": 433.6,
+        "memcpy_memset": 191.4,
+        "recurrent_conv": 186.4,
+        "gemv_bf16": 182.3,
+        "routing": 131.6,
+        "quant": 112.1,
+        "attention": 105.0,
+        "reduction_moe": 38.9
+      },
+      "launch_interval_us": 24979.44921875
+    },
+    {
+      "span_us": 2989.1201171875,
+      "union_us": 2960.8623046875,
+      "gap_us": 28.2578125,
+      "n_kernels": 1055,
+      "api_dur_us": 4112.291,
+      "api_ts": 6264081896238.367,
+      "streams": {
+        "13": 2347.4,
+        "4229": 1273.1
+      },
+      "categories": {
+        "fp8_gemm": 922.7,
+        "marlin_moe": 713.9,
+        "marlin_shared_lmhead": 693.9,
+        "norm_act_elem": 434.0,
+        "memcpy_memset": 190.9,
+        "recurrent_conv": 185.7,
+        "gemv_bf16": 177.2,
+        "routing": 131.0,
+        "quant": 111.4,
+        "attention": 102.7,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 27215.0615234375
+    },
+    {
+      "span_us": 2991.072265625,
+      "union_us": 2962.70703125,
+      "gap_us": 28.365234375,
+      "n_kernels": 1055,
+      "api_dur_us": 2644.299,
+      "api_ts": 6264081918181.628,
+      "streams": {
+        "13": 2347.6,
+        "4229": 1272.4
+      },
+      "categories": {
+        "fp8_gemm": 921.2,
+        "marlin_moe": 715.3,
+        "marlin_shared_lmhead": 694.3,
+        "norm_act_elem": 435.6,
+        "memcpy_memset": 190.4,
+        "recurrent_conv": 184.9,
+        "gemv_bf16": 176.5,
+        "routing": 129.9,
+        "quant": 111.8,
+        "attention": 104.1,
+        "reduction_moe": 39.3
+      },
+      "launch_interval_us": 21943.2607421875
+    },
+    {
+      "span_us": 2989.087890625,
+      "union_us": 2960.86328125,
+      "gap_us": 28.224609375,
+      "n_kernels": 1055,
+      "api_dur_us": 2321.959,
+      "api_ts": 6264081931924.6,
+      "streams": {
+        "13": 2351.9,
+        "4229": 1277.5
+      },
+      "categories": {
+        "fp8_gemm": 922.1,
+        "marlin_moe": 714.9,
+        "marlin_shared_lmhead": 699.4,
+        "norm_act_elem": 433.4,
+        "memcpy_memset": 190.6,
+        "recurrent_conv": 185.6,
+        "gemv_bf16": 182.3,
+        "routing": 129.8,
+        "quant": 112.0,
+        "attention": 103.5,
+        "reduction_moe": 39.6
+      },
+      "launch_interval_us": 13742.9716796875
+    },
+    {
+      "span_us": 2988.767578125,
+      "union_us": 2960.4970703125,
+      "gap_us": 28.2705078125,
+      "n_kernels": 1055,
+      "api_dur_us": 2245.529,
+      "api_ts": 6264081945348.866,
+      "streams": {
+        "13": 2343.5,
+        "4229": 1283.8
+      },
+      "categories": {
+        "fp8_gemm": 922.2,
+        "marlin_moe": 713.1,
+        "marlin_shared_lmhead": 691.5,
+        "norm_act_elem": 436.2,
+        "memcpy_memset": 191.6,
+        "gemv_bf16": 186.0,
+        "recurrent_conv": 185.3,
+        "routing": 131.6,
+        "quant": 111.9,
+        "attention": 102.4,
+        "reduction_moe": 39.5
+      },
+      "launch_interval_us": 13424.2666015625
+    },
+    {
+      "span_us": 2986.015625,
+      "union_us": 2957.873046875,
+      "gap_us": 28.142578125,
+      "n_kernels": 1055,
+      "api_dur_us": 3964.368,
+      "api_ts": 6264081967272.973,
+      "streams": {
+        "13": 2341.1,
+        "4229": 1278.8
+      },
+      "categories": {
+        "fp8_gemm": 921.7,
+        "marlin_moe": 713.9,
+        "marlin_shared_lmhead": 690.7,
+        "norm_act_elem": 432.2,
+        "memcpy_memset": 191.4,
+        "recurrent_conv": 185.3,
+        "gemv_bf16": 182.1,
+        "routing": 131.4,
+        "quant": 111.5,
+        "attention": 103.0,
+        "reduction_moe": 39.7
+      },
+      "launch_interval_us": 21924.1064453125
+    },
+    {
+      "span_us": 2995.3603515625,
+      "union_us": 2966.7255859375,
+      "gap_us": 28.634765625,
+      "n_kernels": 1055,
+      "api_dur_us": 4056.419,
+      "api_ts": 6264081993963.331,
+      "streams": {
+        "13": 2346.6,
+        "4229": 1283.7
+      },
+      "categories": {
+        "fp8_gemm": 923.7,
+        "marlin_moe": 718.2,
+        "marlin_shared_lmhead": 692.6,
+        "norm_act_elem": 433.2,
+        "memcpy_memset": 191.5,
+        "gemv_bf16": 184.1,
+        "recurrent_conv": 184.1,
+        "routing": 131.1,
+        "quant": 112.5,
+        "attention": 104.4,
+        "reduction_moe": 39.0
+      },
+      "launch_interval_us": 26690.3583984375
+    },
+    {
+      "span_us": 2992.0,
+      "union_us": 2963.7177734375,
+      "gap_us": 28.2822265625,
+      "n_kernels": 1055,
+      "api_dur_us": 9918.669,
+      "api_ts": 6264082019096.992,
+      "streams": {
+        "13": 2347.0,
+        "4229": 1282.3
+      },
+      "categories": {
+        "fp8_gemm": 922.3,
+        "marlin_moe": 716.0,
+        "marlin_shared_lmhead": 693.4,
+        "norm_act_elem": 435.1,
+        "memcpy_memset": 192.3,
+        "recurrent_conv": 185.3,
+        "gemv_bf16": 184.0,
+        "routing": 131.1,
+        "quant": 112.2,
+        "attention": 103.5,
+        "reduction_moe": 39.2
+      },
+      "launch_interval_us": 25133.6611328125
+    },
+    {
+      "span_us": 2989.9521484375,
+      "union_us": 2961.423828125,
+      "gap_us": 28.5283203125,
+      "n_kernels": 1055,
+      "api_dur_us": 3473.539,
+      "api_ts": 6264082041494.199,
+      "streams": {
+        "13": 2343.7,
+        "4229": 1275.2
+      },
+      "categories": {
+        "fp8_gemm": 924.5,
+        "marlin_moe": 711.2,
+        "marlin_shared_lmhead": 690.1,
+        "norm_act_elem": 436.5,
+        "memcpy_memset": 191.9,
+        "recurrent_conv": 184.8,
+        "gemv_bf16": 178.6,
+        "routing": 131.3,
+        "quant": 111.4,
+        "attention": 102.7,
+        "reduction_moe": 39.1
+      },
+      "launch_interval_us": 22397.20703125
+    },
+    {
+      "span_us": 2996.83203125,
+      "union_us": 2968.6513671875,
+      "gap_us": 28.1806640625,
+      "n_kernels": 1055,
+      "api_dur_us": 2149.76,
+      "api_ts": 6264082059133.222,
+      "streams": {
+        "13": 2344.5,
+        "4229": 1282.8
+      },
+      "categories": {
+        "fp8_gemm": 922.6,
+        "marlin_moe": 715.8,
+        "marlin_shared_lmhead": 688.3,
+        "norm_act_elem": 436.4,
+        "memcpy_memset": 192.6,
+        "recurrent_conv": 186.7,
+        "gemv_bf16": 181.9,
+        "routing": 130.8,
+        "quant": 112.2,
+        "attention": 104.1,
+        "reduction_moe": 39.5
+      },
+      "launch_interval_us": 17639.0224609375
+    }
+  ]
+}

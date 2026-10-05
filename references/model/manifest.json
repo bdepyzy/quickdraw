@@ -1,0 +1,133 @@
+{
+  "transformers": "5.17.0",
+  "torch": "2.13.0+cu130",
+  "attention_backend": "eager",
+  "expert_backend": "grouped_mm",
+  "rotary_frequency_dtype": "torch.float32",
+  "hf_source_sha256": "42b6ca1cd9a2f0754c3dec97f0708dfa7e97e1b6edd9fac88f3139e4e36316c2",
+  "hf_source": "https://github.com/huggingface/transformers/blob/v5.17.0/src/transformers/models/qwen3_5_moe/modeling_qwen3_5_moe.py",
+  "generator_sha256": "b65c24869935d3894b44fce8d69921d85c8ea9711fa62ee71f69c1a5269ea89b",
+  "cache_validation": "native HF DynamicCache, two layer orders, four positions each",
+  "cases": [
+    {
+      "file": "attention-v0-p0.pt",
+      "function": "full_attention_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 0.06884765625
+    },
+    {
+      "file": "attention-v0-p2.pt",
+      "function": "full_attention_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 0.1376953125
+    },
+    {
+      "file": "attention-v1-p4.pt",
+      "function": "full_attention_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 0.05126953125
+    },
+    {
+      "file": "delta-v0-p0.pt",
+      "function": "gated_delta_net_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 0.0771484375
+    },
+    {
+      "file": "delta-v0-p3.pt",
+      "function": "gated_delta_net_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 0.099609375
+    },
+    {
+      "file": "delta-v1-p4.pt",
+      "function": "gated_delta_net_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 0.0308837890625
+    },
+    {
+      "file": "moe-v0-top1.pt",
+      "function": "moe_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 13.75
+    },
+    {
+      "file": "moe-v0-top2.pt",
+      "function": "moe_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 7.25
+    },
+    {
+      "file": "moe-v1-top3.pt",
+      "function": "moe_block",
+      "output_shape": [
+        32
+      ],
+      "output_max_abs": 13.9375
+    },
+    {
+      "file": "forward-v0-p0.pt",
+      "function": "forward_step",
+      "output_shape": [
+        19
+      ],
+      "output_max_abs": 5.9375
+    },
+    {
+      "file": "forward-v0-p1.pt",
+      "function": "forward_step",
+      "output_shape": [
+        19
+      ],
+      "output_max_abs": 4.28125
+    },
+    {
+      "file": "forward-v0-p3.pt",
+      "function": "forward_step",
+      "output_shape": [
+        19
+      ],
+      "output_max_abs": 3.640625
+    },
+    {
+      "file": "forward-v1-p0.pt",
+      "function": "forward_step",
+      "output_shape": [
+        19
+      ],
+      "output_max_abs": 5.59375
+    },
+    {
+      "file": "forward-v1-p1.pt",
+      "function": "forward_step",
+      "output_shape": [
+        19
+      ],
+      "output_max_abs": 4.34375
+    },
+    {
+      "file": "forward-v1-p3.pt",
+      "function": "forward_step",
+      "output_shape": [
+        19
+      ],
+      "output_max_abs": 5.5625
+    }
+  ]
+}

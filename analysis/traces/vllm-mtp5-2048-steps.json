@@ -1,0 +1,469 @@
+{
+  "trace": "analysis/traces/vllm029-mtp5-2048/trace.json.gz",
+  "steps": [
+    {
+      "span_us": 7925.0126953125,
+      "union_us": 7576.0126953125,
+      "gap_us": 349.0,
+      "n_kernels": 1158,
+      "api_dur_us": 1815.64,
+      "api_ts": 6265613273568.291,
+      "streams": {
+        "29": 5015.3,
+        "974": 2041.3,
+        "991": 147.0,
+        "993": 371.0,
+        "994": 422.9
+      },
+      "categories": {
+        "gemv_bf16": 1569.8,
+        "marlin_shared_lmhead": 1443.4,
+        "attention": 1402.2,
+        "marlin_moe": 1357.5,
+        "fp8_gemm": 1294.3,
+        "recurrent_conv": 496.9,
+        "norm_act_elem": 471.5,
+        "routing": 368.5,
+        "memcpy_memset": 339.2,
+        "moe_bf16": 284.1,
+        "reduction_moe": 51.0,
+        "sampling": 26.8,
+        "other": 22.7
+      }
+    },
+    {
+      "span_us": 8027.60546875,
+      "union_us": 7680.7958984375,
+      "gap_us": 346.8095703125,
+      "n_kernels": 1158,
+      "api_dur_us": 1691.106,
+      "api_ts": 6265613294315.126,
+      "streams": {
+        "29": 5079.4,
+        "974": 2095.0,
+        "991": 173.7,
+        "993": 371.4,
+        "994": 423.5
+      },
+      "categories": {
+        "gemv_bf16": 1613.6,
+        "marlin_shared_lmhead": 1446.8,
+        "marlin_moe": 1415.7,
+        "attention": 1402.6,
+        "fp8_gemm": 1293.9,
+        "recurrent_conv": 494.0,
+        "norm_act_elem": 470.3,
+        "routing": 368.3,
+        "memcpy_memset": 364.9,
+        "moe_bf16": 309.7,
+        "reduction_moe": 50.6,
+        "sampling": 27.3,
+        "other": 23.2
+      },
+      "launch_interval_us": 20746.8349609375
+    },
+    {
+      "span_us": 7982.3876953125,
+      "union_us": 7637.1943359375,
+      "gap_us": 345.193359375,
+      "n_kernels": 1158,
+      "api_dur_us": 1661.194,
+      "api_ts": 6265613315164.325,
+      "streams": {
+        "29": 5006.7,
+        "974": 2075.1,
+        "991": 161.3,
+        "993": 372.6,
+        "994": 425.9
+      },
+      "categories": {
+        "gemv_bf16": 1542.0,
+        "marlin_shared_lmhead": 1446.3,
+        "attention": 1400.7,
+        "marlin_moe": 1397.1,
+        "fp8_gemm": 1284.7,
+        "recurrent_conv": 493.3,
+        "norm_act_elem": 474.5,
+        "routing": 369.3,
+        "memcpy_memset": 365.2,
+        "moe_bf16": 296.5,
+        "reduction_moe": 50.3,
+        "sampling": 26.8,
+        "other": 24.1
+      },
+      "launch_interval_us": 20849.19921875
+    },
+    {
+      "span_us": 8141.0146484375,
+      "union_us": 7797.3173828125,
+      "gap_us": 343.697265625,
+      "n_kernels": 1158,
+      "api_dur_us": 1705.777,
+      "api_ts": 6265613335521.539,
+      "streams": {
+        "29": 5102.1,
+        "974": 2248.3,
+        "991": 139.7,
+        "993": 370.1,
+        "994": 421.3
+      },
+      "categories": {
+        "gemv_bf16": 1567.7,
+        "marlin_moe": 1566.6,
+        "marlin_shared_lmhead": 1439.3,
+        "attention": 1401.2,
+        "fp8_gemm": 1295.7,
+        "norm_act_elem": 557.4,
+        "recurrent_conv": 493.1,
+        "routing": 368.7,
+        "memcpy_memset": 367.1,
+        "moe_bf16": 275.5,
+        "reduction_moe": 50.6,
+        "sampling": 27.0,
+        "other": 23.3
+      },
+      "launch_interval_us": 20357.2138671875
+    },
+    {
+      "span_us": 15859.0498046875,
+      "union_us": 7704.9609375,
+      "gap_us": 8154.0888671875,
+      "n_kernels": 1158,
+      "api_dur_us": 2321.5,
+      "api_ts": 6265613355944.739,
+      "streams": {
+        "29": 5071.3,
+        "974": 2145.0,
+        "991": 158.2,
+        "993": 378.1,
+        "994": 423.1
+      },
+      "categories": {
+        "gemv_bf16": 1592.5,
+        "marlin_moe": 1467.8,
+        "marlin_shared_lmhead": 1446.1,
+        "attention": 1401.1,
+        "fp8_gemm": 1286.6,
+        "norm_act_elem": 501.6,
+        "recurrent_conv": 493.6,
+        "routing": 367.5,
+        "memcpy_memset": 366.2,
+        "moe_bf16": 294.5,
+        "reduction_moe": 51.0,
+        "sampling": 27.1,
+        "other": 23.4
+      },
+      "launch_interval_us": 20423.2001953125
+    },
+    {
+      "span_us": 16475.94921875,
+      "union_us": 7499.064453125,
+      "gap_us": 8976.884765625,
+      "n_kernels": 1158,
+      "api_dur_us": 3508.539,
+      "api_ts": 6265613410758.638,
+      "streams": {
+        "29": 4972.4,
+        "974": 1964.3,
+        "991": 138.7,
+        "993": 368.3,
+        "994": 422.4
+      },
+      "categories": {
+        "gemv_bf16": 1525.2,
+        "marlin_shared_lmhead": 1442.7,
+        "attention": 1401.3,
+        "marlin_moe": 1293.2,
+        "fp8_gemm": 1284.8,
+        "recurrent_conv": 492.9,
+        "norm_act_elem": 447.2,
+        "routing": 369.3,
+        "memcpy_memset": 365.4,
+        "moe_bf16": 272.9,
+        "reduction_moe": 50.1,
+        "sampling": 27.1,
+        "other": 23.2
+      },
+      "launch_interval_us": 54813.8984375
+    },
+    {
+      "span_us": 7948.2119140625,
+      "union_us": 7593.001953125,
+      "gap_us": 355.2099609375,
+      "n_kernels": 1158,
+      "api_dur_us": 1802.552,
+      "api_ts": 6265613449103.299,
+      "streams": {
+        "29": 4994.5,
+        "974": 2054.0,
+        "991": 142.3,
+        "993": 370.5,
+        "994": 424.2
+      },
+      "categories": {
+        "gemv_bf16": 1525.8,
+        "marlin_shared_lmhead": 1440.7,
+        "attention": 1400.2,
+        "marlin_moe": 1384.7,
+        "fp8_gemm": 1281.5,
+        "recurrent_conv": 491.8,
+        "norm_act_elem": 474.8,
+        "memcpy_memset": 369.3,
+        "routing": 366.6,
+        "moe_bf16": 279.9,
+        "reduction_moe": 50.3,
+        "sampling": 26.8,
+        "other": 23.8
+      },
+      "launch_interval_us": 38344.6611328125
+    },
+    {
+      "span_us": 8976.08984375,
+      "union_us": 7686.19921875,
+      "gap_us": 1289.890625,
+      "n_kernels": 1158,
+      "api_dur_us": 2044.996,
+      "api_ts": 6265613471082.882,
+      "streams": {
+        "29": 5045.0,
+        "974": 2147.7,
+        "991": 141.6,
+        "993": 369.7,
+        "994": 431.0
+      },
+      "categories": {
+        "gemv_bf16": 1545.7,
+        "marlin_moe": 1470.2,
+        "marlin_shared_lmhead": 1444.7,
+        "attention": 1401.5,
+        "fp8_gemm": 1286.1,
+        "norm_act_elem": 519.6,
+        "recurrent_conv": 491.6,
+        "routing": 369.8,
+        "memcpy_memset": 366.1,
+        "moe_bf16": 278.5,
+        "reduction_moe": 50.1,
+        "sampling": 26.9,
+        "other": 23.3
+      },
+      "launch_interval_us": 21979.5830078125
+    },
+    {
+      "span_us": 8568.056640625,
+      "union_us": 7856.4521484375,
+      "gap_us": 711.6044921875,
+      "n_kernels": 1158,
+      "api_dur_us": 1876.949,
+      "api_ts": 6265613493355.568,
+      "streams": {
+        "29": 5141.2,
+        "974": 2283.3,
+        "991": 163.2,
+        "993": 371.1,
+        "994": 422.0
+      },
+      "categories": {
+        "gemv_bf16": 1623.9,
+        "marlin_moe": 1599.0,
+        "marlin_shared_lmhead": 1442.6,
+        "attention": 1402.0,
+        "fp8_gemm": 1295.1,
+        "norm_act_elem": 530.7,
+        "recurrent_conv": 493.0,
+        "routing": 370.6,
+        "memcpy_memset": 365.5,
+        "moe_bf16": 300.3,
+        "reduction_moe": 50.5,
+        "sampling": 26.7,
+        "other": 23.5
+      },
+      "launch_interval_us": 22272.6865234375
+    },
+    {
+      "span_us": 9622.0791015625,
+      "union_us": 7890.01953125,
+      "gap_us": 1732.0595703125,
+      "n_kernels": 1158,
+      "api_dur_us": 3627.768,
+      "api_ts": 6265613518199.737,
+      "streams": {
+        "29": 5175.8,
+        "974": 2309.0,
+        "991": 172.2,
+        "993": 369.0,
+        "994": 427.9
+      },
+      "categories": {
+        "gemv_bf16": 1627.1,
+        "marlin_moe": 1622.1,
+        "marlin_shared_lmhead": 1443.5,
+        "attention": 1400.8,
+        "fp8_gemm": 1296.5,
+        "norm_act_elem": 569.4,
+        "recurrent_conv": 493.9,
+        "routing": 371.7,
+        "memcpy_memset": 366.6,
+        "moe_bf16": 307.5,
+        "reduction_moe": 50.5,
+        "sampling": 26.7,
+        "other": 23.4
+      },
+      "launch_interval_us": 24844.1689453125
+    },
+    {
+      "span_us": 9571.423828125,
+      "union_us": 7642.4306640625,
+      "gap_us": 1928.9931640625,
+      "n_kernels": 1158,
+      "api_dur_us": 2103.526,
+      "api_ts": 6265613545023.21,
+      "streams": {
+        "29": 5011.4,
+        "974": 2073.2,
+        "991": 169.1,
+        "993": 371.2,
+        "994": 420.2
+      },
+      "categories": {
+        "gemv_bf16": 1542.9,
+        "marlin_shared_lmhead": 1445.4,
+        "attention": 1400.9,
+        "marlin_moe": 1396.8,
+        "fp8_gemm": 1286.0,
+        "recurrent_conv": 491.6,
+        "norm_act_elem": 476.2,
+        "memcpy_memset": 368.1,
+        "routing": 367.9,
+        "moe_bf16": 303.6,
+        "reduction_moe": 49.9,
+        "sampling": 26.9,
+        "other": 23.4
+      },
+      "launch_interval_us": 26823.47265625
+    },
+    {
+      "span_us": 10740.646484375,
+      "union_us": 7612.841796875,
+      "gap_us": 3127.8046875,
+      "n_kernels": 1158,
+      "api_dur_us": 3544.294,
+      "api_ts": 6265613573526.937,
+      "streams": {
+        "29": 5020.2,
+        "974": 2056.2,
+        "991": 156.3,
+        "993": 369.8,
+        "994": 423.5
+      },
+      "categories": {
+        "gemv_bf16": 1567.9,
+        "marlin_shared_lmhead": 1447.1,
+        "attention": 1401.4,
+        "marlin_moe": 1382.2,
+        "fp8_gemm": 1286.4,
+        "recurrent_conv": 493.2,
+        "norm_act_elem": 455.0,
+        "routing": 369.9,
+        "memcpy_memset": 365.8,
+        "moe_bf16": 290.0,
+        "reduction_moe": 50.7,
+        "sampling": 26.8,
+        "other": 23.6
+      },
+      "launch_interval_us": 28503.7265625
+    },
+    {
+      "span_us": 9046.90625,
+      "union_us": 7718.7080078125,
+      "gap_us": 1328.1982421875,
+      "n_kernels": 1158,
+      "api_dur_us": 2250.514,
+      "api_ts": 6265613607121.645,
+      "streams": {
+        "29": 5051.7,
+        "974": 2157.2,
+        "991": 166.0,
+        "993": 370.7,
+        "994": 421.4
+      },
+      "categories": {
+        "gemv_bf16": 1565.0,
+        "marlin_moe": 1478.0,
+        "marlin_shared_lmhead": 1445.9,
+        "attention": 1402.4,
+        "fp8_gemm": 1286.2,
+        "norm_act_elem": 497.7,
+        "recurrent_conv": 492.7,
+        "routing": 369.3,
+        "memcpy_memset": 365.2,
+        "moe_bf16": 302.8,
+        "reduction_moe": 50.7,
+        "sampling": 27.0,
+        "other": 23.1
+      },
+      "launch_interval_us": 33594.7080078125
+    },
+    {
+      "span_us": 8723.4814453125,
+      "union_us": 7673.140625,
+      "gap_us": 1050.3408203125,
+      "n_kernels": 1158,
+      "api_dur_us": 2142.35,
+      "api_ts": 6265613633716.051,
+      "streams": {
+        "29": 5070.3,
+        "974": 2099.6,
+        "991": 167.8,
+        "993": 368.4,
+        "994": 422.2
+      },
+      "categories": {
+        "gemv_bf16": 1598.2,
+        "marlin_shared_lmhead": 1447.2,
+        "marlin_moe": 1422.4,
+        "attention": 1403.7,
+        "fp8_gemm": 1283.1,
+        "recurrent_conv": 492.2,
+        "norm_act_elem": 472.7,
+        "memcpy_memset": 375.6,
+        "routing": 370.5,
+        "moe_bf16": 304.1,
+        "reduction_moe": 50.2,
+        "sampling": 27.2,
+        "other": 23.7
+      },
+      "launch_interval_us": 26594.40625
+    },
+    {
+      "span_us": 8304.53515625,
+      "union_us": 7663.5888671875,
+      "gap_us": 640.9462890625,
+      "n_kernels": 1158,
+      "api_dur_us": 2108.852,
+      "api_ts": 6265613658549.201,
+      "streams": {
+        "29": 5040.6,
+        "974": 2104.4,
+        "991": 157.2,
+        "993": 369.3,
+        "994": 421.0
+      },
+      "categories": {
+        "gemv_bf16": 1555.8,
+        "marlin_shared_lmhead": 1438.9,
+        "marlin_moe": 1426.6,
+        "attention": 1400.4,
+        "fp8_gemm": 1287.2,
+        "recurrent_conv": 492.4,
+        "norm_act_elem": 490.8,
+        "memcpy_memset": 370.5,
+        "routing": 368.9,
+        "moe_bf16": 292.8,
+        "reduction_moe": 50.5,
+        "sampling": 26.8,
+        "other": 23.3
+      },
+      "launch_interval_us": 24833.150390625
+    }
+  ]
+}

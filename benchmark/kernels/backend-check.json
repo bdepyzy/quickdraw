@@ -1,0 +1,42 @@
+{
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch_version": "2.14.0+cu130",
+  "results": [
+    {
+      "kind": "nvfp4",
+      "rows": 13,
+      "input_width": 16,
+      "max_abs_error": 0.0
+    },
+    {
+      "kind": "nvfp4",
+      "rows": 512,
+      "input_width": 2048,
+      "max_abs_error": 0.0
+    },
+    {
+      "kind": "nvfp4",
+      "rows": 2048,
+      "input_width": 512,
+      "max_abs_error": 0.0
+    },
+    {
+      "kind": "fp8",
+      "rows": 13,
+      "input_width": 48,
+      "max_abs_error": 0.0
+    },
+    {
+      "kind": "fp8",
+      "rows": 8192,
+      "input_width": 2048,
+      "max_abs_error": 0.0
+    },
+    {
+      "kind": "fp8",
+      "rows": 2048,
+      "input_width": 4096,
+      "max_abs_error": 0.0
+    }
+  ]
+}

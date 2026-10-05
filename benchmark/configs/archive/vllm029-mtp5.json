@@ -1,0 +1,13 @@
+{
+  "label": "vllm029-mtp5",
+  "engine": "vllm",
+  "env": {},
+  "args": [
+    "--max-num-batched-tokens",
+    "4096",
+    "--speculative-config",
+    "{\"method\": \"mtp\", \"num_speculative_tokens\": 5, \"moe_backend\": \"triton\"}",
+    "--kernel-config",
+    "{\"enable_jit_warmup\": false, \"enable_cutedsl_warmup\": false}"
+  ]
+}

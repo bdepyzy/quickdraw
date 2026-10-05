@@ -1,0 +1,13 @@
+{
+  "label": "vllm029-flashinfer",
+  "engine": "vllm",
+  "env": {},
+  "args": [
+    "--max-num-batched-tokens",
+    "4096",
+    "--attention-backend",
+    "FLASHINFER",
+    "--kernel-config",
+    "{\"enable_jit_warmup\": false, \"enable_cutedsl_warmup\": false}"
+  ]
+}

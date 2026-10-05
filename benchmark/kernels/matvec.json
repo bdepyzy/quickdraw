@@ -1,0 +1,69 @@
+{
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch_version": "2.14.0+cu130",
+  "results": [
+    {
+      "kind": "nvfp4",
+      "rows": 13,
+      "input_width": 16,
+      "max_abs_error": 0.0,
+      "torch_ms": 0.13516618836225955,
+      "fused_ms": 0.005611935666375988,
+      "projection_speedup": 24.085484295928435
+    },
+    {
+      "kind": "nvfp4",
+      "rows": 512,
+      "input_width": 2048,
+      "max_abs_error": 0.0,
+      "torch_ms": 0.16585925000254065,
+      "fused_ms": 0.00650700635816546,
+      "projection_speedup": 25.489332708951256
+    },
+    {
+      "kind": "nvfp4",
+      "rows": 2048,
+      "input_width": 512,
+      "max_abs_error": 0.0,
+      "torch_ms": 0.2178518252744191,
+      "fused_ms": 0.005546227854947689,
+      "projection_speedup": 39.27927791139656
+    },
+    {
+      "kind": "fp8",
+      "rows": 13,
+      "input_width": 48,
+      "max_abs_error": 0.0,
+      "torch_ms": 0.01757187524546183,
+      "fused_ms": 0.006635318306601124,
+      "projection_speedup": 2.648233955555758
+    },
+    {
+      "kind": "fp8",
+      "rows": 8192,
+      "input_width": 2048,
+      "max_abs_error": 0.0,
+      "torch_ms": 0.13935322349562365,
+      "fused_ms": 0.01782291511989246,
+      "projection_speedup": 7.8187671634080305
+    },
+    {
+      "kind": "fp8",
+      "rows": 2048,
+      "input_width": 4096,
+      "max_abs_error": 0.0,
+      "torch_ms": 0.06865071239678756,
+      "fused_ms": 0.014486169959935877,
+      "projection_speedup": 4.739051977620967
+    },
+    {
+      "kind": "nvfp4",
+      "rows": 248320,
+      "input_width": 2048,
+      "max_abs_error": 0.125,
+      "torch_ms": 25.071439743041992,
+      "fused_ms": 0.2794726626439528,
+      "projection_speedup": 89.70981099136311
+    }
+  ]
+}

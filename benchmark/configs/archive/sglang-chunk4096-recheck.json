@@ -1,0 +1,30 @@
+{
+  "label": "sglang-chunk4096-recheck",
+  "engine": "sglang",
+  "env": {},
+  "args": [
+    "--quantization",
+    "modelopt_mixed",
+    "--context-length",
+    "32768",
+    "--max-running-requests",
+    "1",
+    "--mem-fraction-static",
+    "0.90",
+    "--cuda-graph-max-bs-decode",
+    "1",
+    "--reasoning-parser",
+    "qwen3",
+    "--moe-runner-backend",
+    "marlin",
+    "--fp4-gemm-backend",
+    "marlin",
+    "--chunked-prefill-size",
+    "4096",
+    "--enable-metrics",
+    "--random-seed",
+    "0",
+    "--json-model-override-args",
+    "{\"language_model_only\":true}"
+  ]
+}

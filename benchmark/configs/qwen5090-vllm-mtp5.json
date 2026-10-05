@@ -1,0 +1,21 @@
+{
+  "label": "qwen5090-vllm-mtp5",
+  "engine": "vllm",
+  "python": ".venv-vllm/bin/python",
+  "model": "/home/bdepyzy/data/models/vllm/Qwen3.6-35B-A3B-NVFP4",
+  "env": {},
+  "args": [
+    "--quantization", "modelopt",
+    "--safetensors-load-strategy", "lazy",
+    "--language-model-only",
+    "--mm-processor-cache-gb", "0",
+    "--max-model-len", "32768",
+    "--max-num-seqs", "1",
+    "--max-num-batched-tokens", "4096",
+    "--gpu-memory-utilization", "0.90",
+    "--reasoning-parser", "qwen3",
+    "--seed", "0",
+    "--speculative-config", "{\"method\":\"mtp\",\"num_speculative_tokens\":5,\"moe_backend\":\"triton\"}",
+    "--kernel-config", "{\"enable_jit_warmup\":false,\"enable_cutedsl_warmup\":false}"
+  ]
+}
