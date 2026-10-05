@@ -1,5 +1,7 @@
 # quickdraw
 
-![QuickDraw — Qwen MoE on RTX 5090](assets/image.png)
+Quickdraw is inference engine designed for a specific usecase for a specific workload, for the local users.
+It's being optimized for a singular 5090, on the Qwen 3.6 36BA3B model
 
-Batch-one text inference for Qwen3.6-35B-A3B-NVFP4 on one RTX 5090.
+<img src="assets/image.png" alt="QuickDraw — Qwen MoE on RTX 5090" width="480">
+
