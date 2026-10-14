@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 from types import SimpleNamespace
 
-from benchmark.offline.compare import bandwidth_estimate, gaps, main, measure, saved_baselines, summarize, traffic_model
+from benchmark.offline.compare import DEFAULT_WORKLOAD, bandwidth_estimate, speed_ratios, main, measure, saved_baselines, summarize, traffic_model
 
 
 class ComparisonTests(unittest.TestCase):
@@ -31,6 +31,8 @@ class ComparisonTests(unittest.TestCase):
                 saved_baselines(manifest, root / 'compare-2')
             with self.assertRaisesRegex(AssertionError, 'No complete saved baselines'):
                 saved_baselines(dict(manifest, gpu={'uuid': 'changed'}), runs_dir=root)
+            self.assertIsNone(saved_baselines(dict(manifest, gpu={'uuid': 'changed'}),
+                                              runs_dir=root, required=False))
 
     def test_baseline_engine_launch_requires_explicit_refresh(self):
         with patch('sys.argv', ['compare.py', '--engines', 'vllm']), patch('benchmark.offline.compare.subprocess.run') as launch:
@@ -51,10 +53,15 @@ class ComparisonTests(unittest.TestCase):
             python.touch()
             target = root / 'output'
             baseline = root / 'saved'
-            payload = dict(workloads=[dict(input_len=128, samples=[dict(output_ids=[7]*16)]*5,
-                                           median=dict(ttft_ms=10, decode_ms_per_token=2, decode_tps=500, total_ms=40))])
+            payload = dict(workloads=[dict(input_len=DEFAULT_WORKLOAD['input_lens'][0],
+                                           samples=[dict(output_ids=[7]*DEFAULT_WORKLOAD['output_len'])]*5,
+                                           median=dict(ttft_ms=10, decode_ms_per_token=2, decode_tps=500,
+                                                       total_ms=10+2*(DEFAULT_WORKLOAD['output_len']-1)))])
 
             def select(manifest, source):
+                conditions = manifest['conditions']
+                self.assertGreaterEqual(conditions['max_context'] - 2 - max(conditions['input_lens']),
+                                        conditions['output_len'])
                 baseline.mkdir()
                 (baseline / 'manifest.json').write_text(json.dumps(manifest))
                 for engine in ('vllm', 'sglang'):
@@ -97,13 +104,13 @@ class ComparisonTests(unittest.TestCase):
         result = summarize(samples)
         self.assertEqual(result, dict(ttft_ms=3, decode_ms_per_token=6, decode_tps=500/3, total_ms=15))
 
-    def test_latency_and_throughput_gaps_have_different_denominators(self):
+    def test_speed_ratios_use_one_for_equal_speed_and_higher_for_faster(self):
         baseline = dict(ttft_ms=10, decode_ms_per_token=2, total_ms=50, decode_tps=500)
         actual = dict(ttft_ms=20, decode_ms_per_token=8, total_ms=25, decode_tps=125)
-        self.assertEqual(gaps(actual, baseline), dict(ttft_extra_pct=100, decode_extra_pct=300,
-                                                    total_extra_pct=-50, decode_tps_deficit_pct=75))
-        self.assertEqual(gaps(baseline, baseline), dict(ttft_extra_pct=0, decode_extra_pct=0,
-                                                       total_extra_pct=0, decode_tps_deficit_pct=0))
+        self.assertEqual(speed_ratios(actual, baseline), dict(ttft_speed_ratio=.5,
+                         decode_speed_ratio=.25, total_speed_ratio=2))
+        self.assertEqual(speed_ratios(baseline, baseline), dict(ttft_speed_ratio=1,
+                         decode_speed_ratio=1, total_speed_ratio=1))
 
     def test_bandwidth_uses_mean_history_and_decimal_gigabytes(self):
         # P=3, N=3: the two decode steps read 4 and 5 KV positions and write one.
@@ -111,7 +118,7 @@ class ComparisonTests(unittest.TestCase):
         result = bandwidth_estimate(traffic, 3, 3, decode_ms=1, peak_gbs=1)
         self.assertEqual(result['modeled_bytes_per_decode'], 1255)
         self.assertAlmostEqual(result['ideal_bandwidth_ms'], .001255)
-        self.assertAlmostEqual(result['bandwidth_sol_estimate_pct'], .1255)
+        self.assertAlmostEqual(result['bandwidth_sol_estimate'], .001255)
 
     def test_traffic_counts_selected_experts_and_skips_vision_and_embedding_table(self):
         config = dict(hidden_size=4, num_experts=4, num_experts_per_tok=2,

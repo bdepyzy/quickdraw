@@ -1,0 +1,22 @@
+BS=1 | 1024 outputs | median of 5 runs | warmup=1
+Greedy IDs; EOS ignored; no prefix reuse or speculation; BF16 KV; FP32 recurrent state.
+Offline first/last ID delivery includes engine scheduling/IPC. Load and warmup excluded.
+Columns are independent medians. All individual samples and IDs are saved.
+GPU: NVIDIA GeForce RTX 5090 | peak bandwidth: 1792 GB/s
+
+  Input  Engine           TTFT ms  Decode ms/tok   Decode tok/s     Total ms    BW SoL est
+   1024  vllm             135.322          3.779         264.61     4007.040         0.357
+   1024  sglang            42.264          2.868         348.70     2976.571         0.470
+   1024  quickdraw        883.496          4.922         203.16     5919.383         0.274
+  Quickdraw speed / vllm speed: TTFT 0.15x; decode 0.77x; total 0.68x
+  Time saved vs vllm: TTFT -748.174 ms; decode -1.143 ms/token; total -1912.343 ms
+  Quickdraw speed / sglang speed: TTFT 0.05x; decode 0.58x; total 0.50x
+  Time saved vs sglang: TTFT -841.232 ms; decode -2.054 ms/token; total -2942.812 ms
+
+Speed ratio: 1.00x = equal; above 1 = faster; below 1 = slower. Positive time saved means faster.
+BW SoL estimate: 1.000 = modeled peak-bandwidth limit; higher is closer.
+BW SoL est = modeled decode bytes / (peak bandwidth * measured decode time).
+It is an ideal traffic estimate, not measured utilization or NCU kernel SoL.
+L2 reuse, backend weight layouts and extra memory passes can change the estimate.
+CUDA graphs: enabled for baselines and Quickdraw's Triton decode backend.
+Returned IDs are saved. These timing runs do not establish numerical parity.

@@ -6,11 +6,12 @@ build-backend = "setuptools.build_meta"
 name = "quickdraw"
 version = "0.1.0"
 description = "Single-user Qwen3.6-35B-A3B-NVFP4 inference library for one RTX 5090"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.15"
 dependencies = [
     "nvidia-cutlass-dsl>=4.7.1",
     "safetensors>=0.8.0",
     "torch>=2.14.0",
+    "transformers~=5.17.0",
 ]
 
 [tool.setuptools.packages.find]

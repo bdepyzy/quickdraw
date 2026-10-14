@@ -1,0 +1,171 @@
+{
+  "engine": "sglang",
+  "settings": {
+    "dtype": "bfloat16",
+    "quantization": "modelopt_mixed",
+    "skip_tokenizer_init": true,
+    "context_length": 512,
+    "max_running_requests": 1,
+    "mem_fraction_static": 0.85,
+    "disable_radix_cache": true,
+    "cuda_graph_max_bs_decode": 1,
+    "chunked_prefill_size": 4096,
+    "kv_cache_dtype": "bf16",
+    "mamba_ssm_dtype": "float32",
+    "random_seed": 0,
+    "moe_runner_backend": "marlin",
+    "fp4_gemm_runner_backend": "marlin",
+    "stream_interval": 1,
+    "batch_notify_size": 1,
+    "incremental_streaming_output": true,
+    "model_loader_extra_config": "{\"enable_multithread_load\":false,\"num_threads\":1}",
+    "json_model_override_args": "{\"language_model_only\":true}"
+  },
+  "load_s": 124.05864707101136,
+  "versions": {
+    "torch": "2.13.0",
+    "sglang": "0.5.19"
+  },
+  "cuda": "13.0",
+  "workloads": [
+    {
+      "input_len": 128,
+      "samples": [
+        {
+          "ttft_ms": 178.06623998330906,
+          "decode_ms_per_token": 4.8060364671982825,
+          "decode_tps": 208.07166296492088,
+          "total_ms": 250.1567869912833,
+          "output_ids": [
+            97,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 115.57546898256987,
+          "decode_ms_per_token": 5.374775535892695,
+          "decode_tps": 186.05428139687143,
+          "total_ms": 196.1971020209603,
+          "output_ids": [
+            108,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 125.08375395555049,
+          "decode_ms_per_token": 4.701511266951759,
+          "decode_tps": 212.6975653614361,
+          "total_ms": 195.6064229598269,
+          "output_ids": [
+            97,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 96.62164497422054,
+          "decode_ms_per_token": 4.058324867704262,
+          "decode_tps": 246.4070848437735,
+          "total_ms": 157.49651798978448,
+          "output_ids": [
+            108,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 102.50239499146119,
+          "decode_ms_per_token": 5.998760601505637,
+          "decode_tps": 166.70110151570452,
+          "total_ms": 192.48380401404575,
+          "output_ids": [
+            97,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        }
+      ],
+      "median": {
+        "ttft_ms": 115.57546898256987,
+        "decode_ms_per_token": 4.8060364671982825,
+        "decode_tps": 208.07166296492088,
+        "total_ms": 195.6064229598269
+      },
+      "memory_before": {
+        "bytes": 4306198528,
+        "high_events": 25199
+      },
+      "memory_after": {
+        "bytes": 4302077952,
+        "high_events": 25199
+      }
+    }
+  ]
+}

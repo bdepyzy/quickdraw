@@ -40,7 +40,7 @@ class CaptureWorker:
 
     def qd_take(self, destination):
         module = self.get_model()
-        torch.save(torch.cat(module._qd_logits, dim=0), destination)
+        torch.save(dict(logits=torch.cat(module._qd_logits, dim=0)), destination)
         module._qd_logits.clear()
 
 
@@ -136,7 +136,8 @@ def capture_vllm(args):
                                   params, use_tqdm=False)[0].outputs[0]
             case_path = str(Path(directory) / "logits.pt")
             llm.collective_rpc("qd_take", args=(case_path,))
-            raw = torch.load(case_path, map_location="cpu", weights_only=True)
+            captured = torch.load(case_path, map_location="cpu", weights_only=True)
+            raw = captured["logits"]
             output_ids = list(result.token_ids)
             assert len(output_ids) == args.tokens
             logits = validate_capture(raw, output_ids, vocab_size)
@@ -169,6 +170,8 @@ def compare_quickdraw(args):
     report = dict(reference_engine=data["engine"], reference_version=data["version"],
                   model=data["model"], gpu=torch.cuda.get_device_name(), backend=args.backend,
                   torch_version=str(torch.__version__),
+                  fp8_layout="production",
+                  residual_norm="fp32_add_before_norm",
                   history="reference token IDs forced; fixed output count, EOS included as input",
                   capture=str(args.capture.resolve()),
                   limits={"max_rmse": args.max_rmse, "max_total_variation": args.max_tv},
@@ -186,29 +189,6 @@ def compare_quickdraw(args):
             if original_id != repeat_id:
                 break
         report["reference_repetitions"].append(dict(name=repeated["name"], steps=repeated_rows))
-    report["projection_layout_differences"] = []
-    scales = data["inspection"]["projection_scales"]
-    for layer in engine.ckpt.layers:
-        if layer.layer_type == "full_attention":
-            merged = f"language_model.model.layers.{layer.idx}.self_attn.qkv_proj"
-            names = ("q_proj", "k_proj", "v_proj")
-        else:
-            merged = f"language_model.model.layers.{layer.idx}.linear_attn.in_proj_qkvz"
-            names = ("in_proj_qkv", "in_proj_z")
-        for name in names:
-            projection = getattr(layer.attn, name)
-            original_input = projection.input_scale.item()
-            original_weight = projection.weight_scale.item()
-            if (original_input != scales[merged]["input_scale"]
-                    or original_weight != scales[merged]["weight_scale"]):
-                report["projection_layout_differences"].append(dict(
-                    layer=layer.idx, projection=name,
-                    checkpoint_input_scale=original_input,
-                    checkpoint_weight_scale=original_weight,
-                    vllm_merged_input_scale=scales[merged]["input_scale"],
-                    vllm_merged_weight_scale=scales[merged]["weight_scale"]))
-    print(f"Separate versus merged FP8 scale differences: "
-          f"{len(report['projection_layout_differences'])} projections", flush=True)
     pointers = {name: getattr(engine.state, name).data_ptr()
                 for name in ("kv_k", "kv_v", "rec_state", "conv_state")}
     first_logits = None
@@ -285,7 +265,7 @@ def main():
     parser.add_argument("stage", choices=["capture", "compare"])
     parser.add_argument("--model", type=Path, default=DEFAULT_MODEL)
     parser.add_argument("--capture", type=Path, default=DEFAULT_CAPTURE)
-    parser.add_argument("--report", type=Path, default=Path("benchmark/parity/vllm.json"))
+    parser.add_argument("--report", type=Path, default=Path("benchmark/runs/parity.json"))
     parser.add_argument("--tokens", type=int, default=8)
     parser.add_argument("--long-prompt-tokens", type=int, default=256)
     parser.add_argument("--backend", choices=["reference", "triton"], default="triton")

@@ -4,7 +4,7 @@ NVFP4 W4A16, static FP8, and raw BF16 layouts are in docs/architecture.md."""
 import json
 import re
 from contextlib import ExitStack
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from pathlib import Path
 
 import torch
@@ -150,28 +150,10 @@ class ModelConfig:
     def from_json(cls, path: Path) -> "ModelConfig":
         raw = json.loads(Path(path).read_text())["text_config"]
         rope = raw.get("rope_parameters", {})
-        return cls(
-            hidden_size=raw["hidden_size"],
-            num_hidden_layers=raw["num_hidden_layers"],
-            layer_types=raw["layer_types"],
-            full_attention_interval=raw["full_attention_interval"],
-            num_attention_heads=raw["num_attention_heads"],
-            num_key_value_heads=raw["num_key_value_heads"],
-            head_dim=raw["head_dim"],
-            linear_num_key_heads=raw["linear_num_key_heads"],
-            linear_key_head_dim=raw["linear_key_head_dim"],
-            linear_num_value_heads=raw["linear_num_value_heads"],
-            linear_value_head_dim=raw["linear_value_head_dim"],
-            linear_conv_kernel_dim=raw["linear_conv_kernel_dim"],
-            num_experts=raw["num_experts"],
-            num_experts_per_tok=raw["num_experts_per_tok"],
-            moe_intermediate_size=raw["moe_intermediate_size"],
-            shared_expert_intermediate_size=raw["shared_expert_intermediate_size"],
-            rms_norm_eps=raw["rms_norm_eps"],
-            partial_rotary_factor=raw.get("partial_rotary_factor", 0.25),
-            rope_theta=rope.get("rope_theta", 10000000.0),
-            vocab_size=raw["vocab_size"],
-        )
+        values = {f.name: raw[f.name] for f in fields(cls)
+                  if f.name not in ("partial_rotary_factor", "rope_theta")}
+        return cls(**values, partial_rotary_factor=raw.get("partial_rotary_factor", .25),
+                   rope_theta=rope.get("rope_theta", 10000000.0))
 
 
 @dataclass
@@ -182,6 +164,24 @@ class Checkpoint:
     lm_head: NVFP4Linear                # NVFP4 2048 -> 248320
     layers: list[LayerWeights]
     mtp: dict[str, torch.Tensor] = field(default_factory=dict)  # bf16
+
+
+def merge_fp8_scales(ckpt: Checkpoint) -> None:
+    """Match ModelOpt merged projection preparation without changing row packing."""
+    for layer in ckpt.layers:
+        names = (("q_proj", "k_proj", "v_proj") if layer.layer_type == "full_attention"
+                 else ("in_proj_qkv", "in_proj_z"))
+        projections = [getattr(layer.attn, name) for name in names]
+        weight_scale = torch.stack([p.weight_scale.reshape(()) for p in projections]).max()
+        input_scale = torch.stack([p.input_scale.reshape(()) for p in projections]).max()
+        requantize = any(p.weight_scale.item() != weight_scale.item() for p in projections)
+        for proj in projections:
+            if requantize:
+                dequantized = proj.weight.half() * proj.weight_scale.reshape(())
+                proj.weight = (dequantized.float() * weight_scale.reciprocal()).clamp(
+                    -448, 448).to(torch.float8_e4m3fn)
+            proj.weight_scale = weight_scale
+            proj.input_scale = input_scale
 
 
 def load_checkpoint(

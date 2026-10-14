@@ -292,7 +292,7 @@ def empty_state(c, capacity=5):
     )
 
 
-def cases():
+def cases(forward=forward_step):
     for variant, position in ((0, 0), (0, 2), (1, 4)):
         torch.manual_seed(110 + variant * 10 + position)
         c = small_config(variant)
@@ -331,7 +331,7 @@ def cases():
             if position in (0, 1, 3):
                 yield f"forward-v{variant}-p{position}", "forward_step", kwargs
             else:
-                forward_step(**kwargs)
+                forward(**kwargs)
             state.position = position + 1
 
 
@@ -419,10 +419,15 @@ def capture(directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_DIRECTORY)
+    parser.add_argument("--arithmetic", choices=("hf", "modelopt"), default="modelopt")
     args = parser.parse_args()
     torch.set_num_threads(1)
     torch.set_num_interop_threads(1)
-    capture(args.output)
+    if args.arithmetic == "hf":
+        capture(args.output)
+    else:
+        from tests.models.modelopt_reference import capture as capture_modelopt
+        capture_modelopt(args.output)
 
 
 if __name__ == "__main__":

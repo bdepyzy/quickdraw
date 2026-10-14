@@ -17,5 +17,4 @@ class DecodeState:
     position: int
 
     def memory_bytes(self) -> dict[str, int]:
-        return {name: getattr(self, name).nbytes
-                for name in ("kv_k", "kv_v", "rec_state", "conv_state")}
+        return {name: getattr(self, name).nbytes for name in ("kv_k", "kv_v", "rec_state", "conv_state")}

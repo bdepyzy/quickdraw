@@ -18,6 +18,8 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 PEAK_SOURCE = "https://images.nvidia.cn/aem-dam/Solutions/geforce/blackwell/nvidia-rtx-blackwell-gpu-architecture.pdf"
+DEFAULT_WORKLOAD = dict(input_lens=[1024], output_len=1024, runs=5, warmup=1, seed=0, backend="triton")
+QUICK_WORKLOAD = dict(DEFAULT_WORKLOAD, input_lens=[128], output_len=16)
 
 
 def summarize(samples):
@@ -26,12 +28,10 @@ def summarize(samples):
     return {key: median(sample[key] for sample in samples) for key in keys}
 
 
-def gaps(actual, baseline):
-    """Positive latency overhead and TPS deficit mean Quickdraw is behind."""
-    return {"ttft_extra_pct": 100 * (actual["ttft_ms"] / baseline["ttft_ms"] - 1),
-            "decode_extra_pct": 100 * (actual["decode_ms_per_token"] / baseline["decode_ms_per_token"] - 1),
-            "total_extra_pct": 100 * (actual["total_ms"] / baseline["total_ms"] - 1),
-            "decode_tps_deficit_pct": 100 * (1 - actual["decode_tps"] / baseline["decode_tps"])}
+def speed_ratios(actual, baseline):
+    """Baseline time / Quickdraw time: 1 equals baseline speed; higher is faster."""
+    return {f"{name}_speed_ratio": baseline[key] / actual[key] for name, key in (
+        ("ttft", "ttft_ms"), ("decode", "decode_ms_per_token"), ("total", "total_ms"))}
 
 
 def measure(outputs, prompt, count, *, clock=time.perf_counter):
@@ -90,7 +90,7 @@ def bandwidth_estimate(traffic, input_len, output_len, decode_ms, peak_gbs):
                   + traffic["kv_bytes_per_position"] * (positions + 1))
     ideal_ms = byte_count / (peak_gbs * 1e9) * 1000
     return dict(modeled_bytes_per_decode=byte_count, ideal_bandwidth_ms=ideal_ms,
-                bandwidth_sol_estimate_pct=100 * ideal_ms / decode_ms)
+                bandwidth_sol_estimate=ideal_ms / decode_ms)
 
 
 def prepare_memory():
@@ -176,8 +176,12 @@ def worker(args, manifest, destination):
                 ids.extend(chunk.get("output_ids", []))
                 yield ids
 
+    packages = ["torch", "transformers", "triton", "nvidia-cutlass-dsl",
+                "quickdraw" if name == "quickdraw" else name]
+    if name != "quickdraw":
+        packages.append("flashinfer-python")
     result = dict(engine=name, settings=settings, load_s=time.perf_counter() - started,
-                  versions={package: version(package) for package in ("torch", "quickdraw" if name == "quickdraw" else name)},
+                  versions={package: version(package) for package in packages},
                   cuda=torch.version.cuda, workloads=[])
     try:
         with torch.inference_mode():
@@ -213,7 +217,7 @@ def report(manifest, results):
              "Offline first/last ID delivery includes engine scheduling/IPC. Load and warmup excluded.",
              "Columns are independent medians. All individual samples and IDs are saved.",
              f"GPU: {manifest['gpu']['name']} | peak bandwidth: {manifest['peak_bandwidth_gbs']:.0f} GB/s",
-             "", f"{'Input':>7}  {'Engine':<12} {'TTFT ms':>11} {'Decode ms/tok':>14} {'Decode tok/s':>14} {'Total ms':>12} {'BW SoL est %':>13}"]
+             "", f"{'Input':>7}  {'Engine':<12} {'TTFT ms':>11} {'Decode ms/tok':>14} {'Decode tok/s':>14} {'Total ms':>12} {'BW SoL est':>13}"]
     comparisons = []
     for length in conditions["input_lens"]:
         medians = {}
@@ -226,27 +230,38 @@ def report(manifest, results):
             estimate = bandwidth_estimate(manifest["traffic"], length, conditions["output_len"], values["decode_ms_per_token"], manifest["peak_bandwidth_gbs"])
             workload["bandwidth_estimate"] = estimate
             medians[name] = values
-            lines.append(f"{length:7d}  {name:<12} {values['ttft_ms']:11.3f} {values['decode_ms_per_token']:14.3f} {values['decode_tps']:14.2f} {values['total_ms']:12.3f} {estimate['bandwidth_sol_estimate_pct']:13.2f}")
+            lines.append(f"{length:7d}  {name:<12} {values['ttft_ms']:11.3f} {values['decode_ms_per_token']:14.3f} {values['decode_tps']:14.2f} {values['total_ms']:12.3f} {estimate['bandwidth_sol_estimate']:13.3f}")
         if "quickdraw" not in medians:
             continue
         for name in ("vllm", "sglang"):
             if name not in medians:
                 continue
-            gap = gaps(medians["quickdraw"], medians[name])
+            gap = speed_ratios(medians["quickdraw"], medians[name])
             comparisons.append(dict(input_len=length, baseline=name, **gap))
-            lines.append(f"  Quickdraw vs {name}: TTFT {gap['ttft_extra_pct']:+.1f}% time; decode {gap['decode_extra_pct']:+.1f}% time; total {gap['total_extra_pct']:+.1f}% time; decode TPS deficit {gap['decode_tps_deficit_pct']:+.2f}%")
-    lines += ["", "Positive time percentages mean extra time relative to the baseline. Negative means faster.",
+            lines.append(f"  Quickdraw speed / {name} speed: TTFT {gap['ttft_speed_ratio']:.2f}x; decode {gap['decode_speed_ratio']:.2f}x; total {gap['total_speed_ratio']:.2f}x")
+            actual, baseline = medians["quickdraw"], medians[name]
+            lines.append(f"  Time saved vs {name}: TTFT {baseline['ttft_ms'] - actual['ttft_ms']:+.3f} ms; "
+                         f"decode {baseline['decode_ms_per_token'] - actual['decode_ms_per_token']:+.3f} ms/token; "
+                         f"total {baseline['total_ms'] - actual['total_ms']:+.3f} ms")
+    lines += ["", "Speed ratio: 1.00x = equal; above 1 = faster; below 1 = slower. Positive time saved means faster.",
+              "BW SoL estimate: 1.000 = modeled peak-bandwidth limit; higher is closer.",
               "BW SoL est = modeled decode bytes / (peak bandwidth * measured decode time).",
               "It is an ideal traffic estimate, not measured utilization or NCU kernel SoL.",
               "L2 reuse, backend weight layouts and extra memory passes can change the estimate.",
-              "CUDA graphs: enabled for baselines; Quickdraw uses its current backend without graphs.",
+              "CUDA graphs: enabled for baselines and Quickdraw's Triton decode backend.",
               "Returned IDs are saved. These timing runs do not establish numerical parity."]
     return "\n".join(lines) + "\n", comparisons
 
 
-def saved_baselines(manifest, source=None, *, runs_dir=None):
+def saved_baselines(manifest, source=None, *, runs_dir=None, required=True):
     """Newest complete baseline matching the checkpoint, GPU, and workload."""
-    candidates = [source] if source else sorted((runs_dir or ROOT / "benchmark/runs").glob("compare-*"), reverse=True)
+    if source:
+        candidates = [source]
+    elif runs_dir:
+        candidates = sorted(runs_dir.glob("compare-*"), reverse=True)
+    else:
+        candidates = (sorted((ROOT / "benchmark/baselines").glob("*"), reverse=True)
+                      + sorted((ROOT / "benchmark/runs").glob("compare-*"), reverse=True))
     conditions = {k: v for k, v in manifest["conditions"].items() if k != "quickdraw_backend"}
     for folder in candidates:
         if not all((folder / name).is_file() for name in ("manifest.json", "vllm.json", "sglang.json")):
@@ -263,24 +278,50 @@ def saved_baselines(manifest, source=None, *, runs_dir=None):
                          and all(len(case["samples"]) == conditions["runs"] for case in workloads))
         if complete:
             return folder.resolve()
-    raise AssertionError("No complete saved baselines match this checkpoint, GPU, and workload. "
+    assert not required, ("No complete saved baselines match this checkpoint, GPU, and workload. "
                          "Use the saved workload settings or explicitly pass --refresh-baselines.")
+
+
+def workload_manifest(args):
+    """Checkpoint, GPU, prompts, and execution settings shared by offline benchmarks."""
+    gpu_fields = ("name", "uuid", "driver_version", "memory.total", "power.limit", "clocks.max.memory")
+    gpu_line = subprocess.check_output(["nvidia-smi", f"--query-gpu={','.join(gpu_fields)}", "--format=csv,noheader,nounits"], text=True).strip().splitlines()
+    assert len(gpu_line) == 1, "this comparison expects one GPU"
+    gpu = dict(zip(gpu_fields, (value.strip() for value in gpu_line[0].split(","))))
+    signature = {name: hashlib.sha256((args.model / name).read_bytes()).hexdigest()
+                 for name in ("config.json", "hf_quant_config.json", "model.safetensors.index.json")}
+    shards = {path.name: [path.stat().st_size, path.stat().st_mtime_ns] for path in sorted(args.model.glob("model-*.safetensors"))}
+    config = json.loads((args.model / "config.json").read_text())["text_config"]
+    rng = Random(args.seed)
+    prompts = [[rng.randrange(config["vocab_size"]) for _ in range(length)] for length in args.input_lens]
+    conditions = dict(input_lens=args.input_lens, output_len=args.output_len, runs=args.runs, warmup=args.warmup,
+                      seed=args.seed, max_context=max(512, max(args.input_lens) + max(args.output_len, 2) + 2),
+                      quickdraw_backend=args.backend, batch_size=1, temperature=0, ignore_eos=True,
+                      prefix_cache=False, speculative=False, kv_dtype="bfloat16", recurrent_dtype="float32",
+                      cpu_cores=2, compiler_workers=1, host_ram_cap_gib=12)
+    conditions["reclaim_checkpoint_cache"] = True
+    return dict(model=str(args.model.resolve()), gpu=gpu,
+                checkpoint=dict(metadata=signature, shards=shards), conditions=conditions, prompts=prompts)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.set_defaults(**(QUICK_WORKLOAD if "--quick" in sys.argv[1:] else DEFAULT_WORKLOAD))
+    parser.add_argument("--quick", action="store_true", help="use the saved 128-input/16-output workload")
     parser.add_argument("--model", type=Path, default=Path.home() / "data/models/vllm/Qwen3.6-35B-A3B-NVFP4")
-    parser.add_argument("--input-lens", type=int, nargs="+", default=[128])
-    parser.add_argument("--output-len", type=int, default=16)
-    parser.add_argument("--runs", type=int, default=5)
-    parser.add_argument("--warmup", type=int, default=1)
-    parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--backend", choices=("reference", "triton"), default="triton")
+    parser.add_argument("--input-lens", type=int, nargs="+")
+    parser.add_argument("--output-len", type=int)
+    parser.add_argument("--runs", type=int)
+    parser.add_argument("--warmup", type=int)
+    parser.add_argument("--seed", type=int)
+    parser.add_argument("--backend", choices=("reference", "triton"))
     parser.add_argument("--engines", choices=("quickdraw", "vllm", "sglang"), nargs="+",
                         help="engines to run (default: Quickdraw; with --refresh-baselines: all three)")
     parser.add_argument("--baselines", type=Path, help="choose saved baselines (default: newest complete matching session)")
     parser.add_argument("--refresh-baselines", action="store_true",
                         help="explicitly allow starting vLLM/SGLang to measure new baselines")
+    parser.add_argument("--vllm-python", type=Path, help="external interpreter with vLLM installed")
+    parser.add_argument("--sglang-python", type=Path, help="external interpreter with SGLang installed")
     parser.add_argument("--peak-bandwidth-gbs", type=float, default=1792, help="RTX 5090 advertised peak; decimal GB/s")
     parser.add_argument("--save-dir", type=Path)
     parser.add_argument("--resume", type=Path, help="rerun selected engines in a matching session, retaining other results")
@@ -303,28 +344,12 @@ def main():
     assert min(args.input_lens) > 0 and len(set(args.input_lens)) == len(args.input_lens)
     assert args.output_len >= 2, "use at least two outputs to measure decode"
     assert args.runs > 0 and args.warmup >= 0 and args.peak_bandwidth_gbs > 0
-    gpu_fields = ("name", "uuid", "driver_version", "memory.total", "power.limit", "clocks.max.memory")
-    gpu_line = subprocess.check_output(["nvidia-smi", f"--query-gpu={','.join(gpu_fields)}", "--format=csv,noheader,nounits"], text=True).strip().splitlines()
-    assert len(gpu_line) == 1, "this comparison expects one GPU"
-    gpu = dict(zip(gpu_fields, (value.strip() for value in gpu_line[0].split(","))))
-    assert "5090" in gpu["name"] or args.peak_bandwidth_gbs != 1792, "set this GPU's peak bandwidth"
-    signature = {name: hashlib.sha256((args.model / name).read_bytes()).hexdigest()
-                 for name in ("config.json", "hf_quant_config.json", "model.safetensors.index.json")}
-    shards = {path.name: [path.stat().st_size, path.stat().st_mtime_ns] for path in sorted(args.model.glob("model-*.safetensors"))}
-    config = json.loads((args.model / "config.json").read_text())["text_config"]
-    rng = Random(args.seed)
-    prompts = [[rng.randrange(config["vocab_size"]) for _ in range(length)] for length in args.input_lens]
-    conditions = dict(input_lens=args.input_lens, output_len=args.output_len, runs=args.runs, warmup=args.warmup,
-                      seed=args.seed, max_context=max(512, max(args.input_lens) + args.output_len - 1),
-                      quickdraw_backend=args.backend, batch_size=1, temperature=0, ignore_eos=True,
-                      prefix_cache=False, speculative=False, kv_dtype="bfloat16", recurrent_dtype="float32",
-                      cpu_cores=2, compiler_workers=1, host_ram_cap_gib=12)
-    conditions["reclaim_checkpoint_cache"] = True
+    manifest = workload_manifest(args)
+    assert "5090" in manifest["gpu"]["name"] or args.peak_bandwidth_gbs != 1792, "set this GPU's peak bandwidth"
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
     assert not (args.resume and args.baselines), "choose resume or baseline reuse"
     folder = (args.resume or args.save_dir or ROOT / "benchmark/runs" / f"compare-{stamp}").resolve()
-    manifest = dict(created_utc=stamp, model=str(args.model.resolve()), checkpoint=dict(metadata=signature, shards=shards),
-                    gpu=gpu, conditions=conditions, prompts=prompts, traffic=traffic_model(args.model),
+    manifest.update(created_utc=stamp, traffic=traffic_model(args.model),
                     peak_bandwidth_gbs=args.peak_bandwidth_gbs, peak_source=PEAK_SOURCE)
     if not args.refresh_baselines:
         selected = saved_baselines(manifest, args.resume or args.baselines)
@@ -360,7 +385,8 @@ def main():
                 existing = folder / f"{name}.{suffix}"
                 if existing.exists():
                     existing.rename(folder / f"{name}-{stamp}.{suffix}")
-        python = ROOT / (".venv" if name == "quickdraw" else f".venv-{name}") / "bin/python"
+        python = (ROOT / ".venv/bin/python" if name == "quickdraw"
+                  else getattr(args, f"{name}_python") or Path(sys.executable)).absolute()
         assert python.exists(), f"missing environment: {python}"
         command = [sys.executable, str(ROOT / "scripts/direct_run.py"), "--cache-tag", name,
                    "--", str(python), str(Path(__file__).resolve()), "--worker", name, "--save-dir", str(folder)]

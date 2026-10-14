@@ -1,133 +1,69 @@
 {
   "transformers": "5.17.0",
   "torch": "2.13.0+cu130",
-  "attention_backend": "eager",
-  "expert_backend": "grouped_mm",
-  "rotary_frequency_dtype": "torch.float32",
   "hf_source_sha256": "42b6ca1cd9a2f0754c3dec97f0708dfa7e97e1b6edd9fac88f3139e4e36316c2",
-  "hf_source": "https://github.com/huggingface/transformers/blob/v5.17.0/src/transformers/models/qwen3_5_moe/modeling_qwen3_5_moe.py",
-  "generator_sha256": "b65c24869935d3894b44fce8d69921d85c8ea9711fa62ee71f69c1a5269ea89b",
-  "cache_validation": "native HF DynamicCache, two layer orders, four positions each",
+  "adapter_sha256": "b05d96f13d152f2ec469c0330e0b876a915949195b8836ec2438702803cc3a89",
+  "arithmetic": "late/joint NVFP4 scaling, BF16 conv products, FP32 beta/gate, FP32 residual add/norm, FP32 RoPE/attention",
   "cases": [
     {
       "file": "attention-v0-p0.pt",
-      "function": "full_attention_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 0.06884765625
+      "function": "full_attention_block"
     },
     {
       "file": "attention-v0-p2.pt",
-      "function": "full_attention_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 0.1376953125
+      "function": "full_attention_block"
     },
     {
       "file": "attention-v1-p4.pt",
-      "function": "full_attention_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 0.05126953125
+      "function": "full_attention_block"
     },
     {
       "file": "delta-v0-p0.pt",
-      "function": "gated_delta_net_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 0.0771484375
+      "function": "gated_delta_net_block"
     },
     {
       "file": "delta-v0-p3.pt",
-      "function": "gated_delta_net_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 0.099609375
+      "function": "gated_delta_net_block"
     },
     {
       "file": "delta-v1-p4.pt",
-      "function": "gated_delta_net_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 0.0308837890625
+      "function": "gated_delta_net_block"
     },
     {
       "file": "moe-v0-top1.pt",
-      "function": "moe_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 13.75
+      "function": "moe_block"
     },
     {
       "file": "moe-v0-top2.pt",
-      "function": "moe_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 7.25
+      "function": "moe_block"
     },
     {
       "file": "moe-v1-top3.pt",
-      "function": "moe_block",
-      "output_shape": [
-        32
-      ],
-      "output_max_abs": 13.9375
+      "function": "moe_block"
     },
     {
       "file": "forward-v0-p0.pt",
-      "function": "forward_step",
-      "output_shape": [
-        19
-      ],
-      "output_max_abs": 5.9375
+      "function": "forward_step"
     },
     {
       "file": "forward-v0-p1.pt",
-      "function": "forward_step",
-      "output_shape": [
-        19
-      ],
-      "output_max_abs": 4.28125
+      "function": "forward_step"
     },
     {
       "file": "forward-v0-p3.pt",
-      "function": "forward_step",
-      "output_shape": [
-        19
-      ],
-      "output_max_abs": 3.640625
+      "function": "forward_step"
     },
     {
       "file": "forward-v1-p0.pt",
-      "function": "forward_step",
-      "output_shape": [
-        19
-      ],
-      "output_max_abs": 5.59375
+      "function": "forward_step"
     },
     {
       "file": "forward-v1-p1.pt",
-      "function": "forward_step",
-      "output_shape": [
-        19
-      ],
-      "output_max_abs": 4.34375
+      "function": "forward_step"
     },
     {
       "file": "forward-v1-p3.pt",
-      "function": "forward_step",
-      "output_shape": [
-        19
-      ],
-      "output_max_abs": 5.5625
+      "function": "forward_step"
     }
   ]
 }

@@ -16,7 +16,7 @@ def main():
                         default=Path.home() / "data/models/vllm/Qwen3.6-35B-A3B-NVFP4")
     parser.add_argument("--prompt", default="What is 2 + 2? Answer briefly.")
     parser.add_argument("--max-tokens", type=int, default=16)
-    parser.add_argument("--backend", choices=["reference", "triton"], default="reference")
+    parser.add_argument("--backend", choices=["reference", "triton"], default="triton")
     parser.add_argument("--max-context", type=int,
                         help="default: enough space for this prompt and output")
     parser.add_argument("--raw", action="store_true", help="omit the tokenizer's chat template")
@@ -31,10 +31,7 @@ def main():
     if not torch.cuda.is_available():
         parser.error("CUDA is unavailable. Check nvidia-smi and the GPU driver before running inference.")
 
-    try:
-        from transformers import AutoTokenizer
-    except ImportError:
-        parser.error("tokenization requires Transformers; run with .venv-vllm/bin/python")
+    from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(args.model, local_files_only=True)
     if args.raw:
         prompt_ids = tokenizer.encode(args.prompt, add_special_tokens=False)

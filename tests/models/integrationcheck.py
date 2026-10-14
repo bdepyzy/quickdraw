@@ -7,10 +7,10 @@ from pathlib import Path
 import tempfile
 
 import torch
-from torch.nn import functional as F
 from safetensors.torch import save_file
 from quickdraw.models import weights as checkpoint, qwen as model
 from tests.models import referencegen as ref
+from tests.models import modelopt_reference as arithmetic
 from quickdraw.engine import Engine
 from tests.models.mathcheck import compare_tree
 
@@ -19,7 +19,7 @@ def verify_chunking():
     torch.manual_seed(501)
     proj = ref.random_fp4(19, 32)
     x = ref.random_bf16(32)
-    expected = F.linear(x.unsqueeze(0), ref.decode_nvfp4(proj)).squeeze(0)
+    expected = arithmetic.linear(x, proj)
     for chunk in (1, 3, 8, 1024):
         compare_tree(model.nvfp4_gemv(x, proj, row_chunk=chunk), expected, 0, 0)
     stacked = ref.random_fp4(19, 32, experts=3)
@@ -88,27 +88,20 @@ def verify_streamed_loader():
 
 
 def verify_generation():
-    _, hf=ref.backend()
     for variant in (0,1):
         torch.manual_seed(410+variant)
         ckpt=ref.random_checkpoint(ref.small_config(variant))
-        expected_model=ref.text_model(ckpt)
-        lm_head=ref.decode_nvfp4(ckpt.lm_head)
-        cache=hf.DynamicCache(config=expected_model.config)
+        expected_state=ref.empty_state(ckpt.config, capacity=8)
         prompt=[3,7,5]
         expected=[]
         pos=0
         for token in prompt:
-            hidden=expected_model(input_ids=torch.tensor([[token]]), position_ids=torch.tensor([[pos]]),
-                attention_mask={'full_attention':None,'linear_attention':None},
-                past_key_values=cache,use_cache=True).last_hidden_state
-            logits=F.linear(hidden,lm_head).reshape(-1); pos+=1
+            logits=arithmetic.forward_step(ckpt, torch.tensor(token), pos, expected_state)
+            pos+=1
         expected.append(int(logits.argmax()))
         for _ in range(4):
-            hidden=expected_model(input_ids=torch.tensor([[expected[-1]]]),position_ids=torch.tensor([[pos]]),
-                attention_mask={'full_attention':None,'linear_attention':None},
-                past_key_values=cache,use_cache=True).last_hidden_state
-            expected.append(int(F.linear(hidden,lm_head).reshape(-1).argmax())); pos+=1
+            logits=arithmetic.forward_step(ckpt, torch.tensor(expected[-1]), pos, expected_state)
+            expected.append(int(logits.argmax())); pos+=1
         engine=Engine(ckpt,max_context=8,device='cpu')
         actual=engine.generate(prompt,5)
         assert actual==expected,(variant,actual,expected)
@@ -147,7 +140,7 @@ def verify_generation():
         try: engine.decode_step()
         except AssertionError: pass
         else: raise AssertionError('decode without a pending token must fail')
-        print(f'PASS actual model generation, variant {variant}: HF IDs {expected}, position 7, repeat/reset')
+        print(f'PASS actual model generation, variant {variant}: independent IDs {expected}, position 7, repeat/reset')
         print(f'PASS supplied kernels, variant {variant}: all operation hooks used; identical IDs and history')
 
 

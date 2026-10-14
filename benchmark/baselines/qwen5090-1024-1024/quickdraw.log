@@ -1,0 +1,7 @@
+Direct run: CPUs [0, 2], host RAM cap 12 GiB, no swap, compiler workers 1
+quickdraw: input=1024, run=1/5, total=5916.846 ms
+quickdraw: input=1024, run=2/5, total=5923.534 ms
+quickdraw: input=1024, run=3/5, total=5926.774 ms
+quickdraw: input=1024, run=4/5, total=5919.383 ms
+quickdraw: input=1024, run=5/5, total=5917.487 ms
+Host RAM peak bytes: 10739490816

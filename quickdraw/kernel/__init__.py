@@ -3,7 +3,7 @@
 from functools import partial
 
 
-def bind_kernels(**overrides):
+def bind_kernels(*, prepared=None, **overrides):
     """Bind projection overrides into reference blocks and the token step.
     Whole-block overrides own their internal operations."""
     from ..models import qwen
@@ -12,7 +12,7 @@ def bind_kernels(**overrides):
              "gated_delta_net_block", "moe_block")
     assert overrides.keys() <= set(names), "unknown kernel operation"
     ops = {name: getattr(qwen, name) for name in names} | overrides
-    if not overrides:
+    if not overrides and prepared is None:
         return ops | {"forward_step": qwen.forward_step}
     for name in ("full_attention_block", "gated_delta_net_block"):
         if name not in overrides:
@@ -23,5 +23,6 @@ def bind_kernels(**overrides):
         qwen.forward_step, normalize=ops["rms_norm"],
         attention=ops["full_attention_block"], delta_net=ops["gated_delta_net_block"],
         experts=ops["moe_block"], project_fp4=ops["nvfp4_gemv"],
+        prepared=prepared,
     )
     return ops

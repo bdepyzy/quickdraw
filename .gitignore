@@ -1,24 +1,12 @@
-# Python-generated files
 __pycache__/
 *.py[oc]
+.pytest_cache/
 build/
 dist/
 wheels/
 *.egg-info
-
-# models
-**/*.pt
-
-# Virtual environments
 .venv*/
 .runtime/
 /models/
-
-# Benchmark outputs
 benchmark/runs/
-/benchmark/profiles/
-
-# Raw profiler traces (keep the distilled *-steps.json)
-analysis/traces/**/*.gz
-analysis/traces/*.log
-analysis/traces/profiler_out_*.txt
+**/*.pt

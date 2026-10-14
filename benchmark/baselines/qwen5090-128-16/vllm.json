@@ -1,0 +1,178 @@
+{
+  "engine": "vllm",
+  "settings": {
+    "dtype": "bfloat16",
+    "quantization": "modelopt_fp4",
+    "skip_tokenizer_init": true,
+    "safetensors_load_strategy": "lazy",
+    "language_model_only": true,
+    "mm_processor_cache_gb": 0,
+    "max_model_len": 512,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 512,
+    "gpu_memory_utilization": 0.85,
+    "enable_prefix_caching": false,
+    "enforce_eager": false,
+    "async_scheduling": true,
+    "seed": 0,
+    "kv_cache_dtype": "auto",
+    "mamba_ssm_cache_dtype": "float32",
+    "attention_backend": "FLASHINFER",
+    "compilation_config": {
+      "cudagraph_capture_sizes": [
+        1
+      ]
+    },
+    "kernel_config": {
+      "enable_jit_warmup": false,
+      "enable_cutedsl_warmup": false
+    }
+  },
+  "load_s": 140.01248659397243,
+  "versions": {
+    "torch": "2.13.0",
+    "vllm": "0.29.0"
+  },
+  "cuda": "13.0",
+  "workloads": [
+    {
+      "input_len": 128,
+      "samples": [
+        {
+          "ttft_ms": 198.65963800111786,
+          "decode_ms_per_token": 3.5727110652563474,
+          "decode_tps": 279.8994885773805,
+          "total_ms": 252.25030397996306,
+          "output_ids": [
+            108,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 210.0810480187647,
+          "decode_ms_per_token": 3.6587117317443094,
+          "decode_tps": 273.32024857920277,
+          "total_ms": 264.96172399492934,
+          "output_ids": [
+            97,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 188.5563429677859,
+          "decode_ms_per_token": 3.6629091327389083,
+          "decode_tps": 273.0070454279216,
+          "total_ms": 243.49997995886952,
+          "output_ids": [
+            108,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 181.12768704304472,
+          "decode_ms_per_token": 3.668513265438378,
+          "decode_tps": 272.5899915426645,
+          "total_ms": 236.15538602462038,
+          "output_ids": [
+            108,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "ttft_ms": 177.2861480130814,
+          "decode_ms_per_token": 3.59100493369624,
+          "decode_tps": 278.47358008798244,
+          "total_ms": 231.151222018525,
+          "output_ids": [
+            97,
+            220,
+            16,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        }
+      ],
+      "median": {
+        "ttft_ms": 188.5563429677859,
+        "decode_ms_per_token": 3.6587117317443094,
+        "decode_tps": 273.32024857920277,
+        "total_ms": 243.49997995886952
+      },
+      "memory_before": {
+        "bytes": 4242829312,
+        "high_events": 26358
+      },
+      "memory_after": {
+        "bytes": 4243288064,
+        "high_events": 26358
+      }
+    }
+  ]
+}
